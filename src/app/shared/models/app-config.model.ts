@@ -16,9 +16,29 @@ export interface SEO {
   keywords: string[];
 }
 
+export interface Logo {
+  light: string;
+  dark: string;
+  favicon: string;
+}
+
+export interface Language {
+  code: string;
+  name: string;
+  flag: string;
+  enabled: boolean;
+}
+
+export interface Localization {
+  defaultLanguage: string;
+  languages: Language[];
+}
+
 export interface AppConfig {
   projectName: string;
+  logo: Logo;
   theme: Theme;
   features: Features;
+  localization: Localization;
   seo: SEO;
 }

@@ -1,6 +1,12 @@
 {
   "projectName": "Winovo",
 
+  "logo": {
+    "light": "/assets/logo-light.svg",
+    "dark": "/assets/logo-dark.svg",
+    "favicon": "/assets/favicon.ico"
+  },
+
   "theme": {
     "primary": "203 168 255",
     "secondary": "223 253 81",
@@ -11,6 +17,42 @@
 
   "features": {
     
+  },
+
+  "localization": {
+    "defaultLanguage": "en",
+    "languages": [
+      {
+        "code": "en",
+        "name": "English",
+        "flag": "🇬🇧",
+        "enabled": true
+      },
+      {
+        "code": "ru",
+        "name": "Русский",
+        "flag": "🇷🇺",
+        "enabled": true
+      },
+      {
+        "code": "es",
+        "name": "Español",
+        "flag": "🇪🇸",
+        "enabled": true
+      },
+      {
+        "code": "de",
+        "name": "Deutsch",
+        "flag": "🇩🇪",
+        "enabled": false
+      },
+      {
+        "code": "fr",
+        "name": "Français",
+        "flag": "🇫🇷",
+        "enabled": false
+      }
+    ]
   },
 
   "seo": {
