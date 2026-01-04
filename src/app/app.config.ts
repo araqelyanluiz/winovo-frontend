@@ -5,13 +5,15 @@ import { Title, Meta } from '@angular/platform-browser';
 import { routes } from './app.routes';
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
 import { ConfigService } from './core/services/config/config.service';
+import { ThemeService } from './core/services/theme/theme.service';
 import { firstValueFrom } from 'rxjs';
 
-function initializeApp(configService: ConfigService, title: Title, meta: Meta) {
+function initializeApp(configService: ConfigService, themeService: ThemeService, title: Title, meta: Meta) {
   return () => firstValueFrom(configService.loadConfig()).then(config => {
     title.setTitle(config.seo.title);
     meta.updateTag({ name: 'description', content: config.seo.description });
     meta.updateTag({ name: 'keywords', content: config.seo.keywords.join(', ') });
+    themeService.initialize();
   });
 }
 
@@ -24,7 +26,7 @@ export const appConfig: ApplicationConfig = {
     {
       provide: APP_INITIALIZER,
       useFactory: initializeApp,
-      deps: [ConfigService, Title, Meta],
+      deps: [ConfigService, ThemeService, Title, Meta],
       multi: true
     }
   ]

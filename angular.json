@@ -41,6 +41,12 @@
           },
           "configurations": {
             "production": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ],
               "budgets": [
                 {
                   "type": "initial",
@@ -59,6 +65,18 @@
               "optimization": false,
               "extractLicenses": false,
               "sourceMap": true
+            },
+            "staging": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.staging.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractLicenses": true
             }
           },
           "defaultConfiguration": "production"
@@ -71,6 +89,9 @@
             },
             "development": {
               "buildTarget": "winovo-frontend:build:development"
+            },
+            "staging": {
+              "buildTarget": "winovo-frontend:build:staging"
             }
           },
           "defaultConfiguration": "development"
