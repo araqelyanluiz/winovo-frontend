@@ -1,0 +1,21 @@
+{
+  "projectName": "Winovo",
+
+  "theme": {
+    "primary": "#7C3AED",
+    "secondary": "#22D3EE",
+    "success": "#22C55E",
+    "warning": "#F59E0B",
+    "danger": "#EF4444"
+  },
+
+  "features": {
+    
+  },
+
+  "seo": {
+    "title": "Winovo | Crypto Casino",
+    "description": "Premium crypto gambling platform",
+    "keywords": ["crypto", "casino", "bitcoin", "games"]
+  }
+}

@@ -23,6 +23,11 @@
               {
                 "glob": "**/*",
                 "input": "public"
+              },
+              {
+                "glob": "config.json",
+                "input": "src/app/core/config",
+                "output": "/assets/config"
               }
             ],
             "styles": [
