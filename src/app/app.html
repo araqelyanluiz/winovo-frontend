@@ -1,1 +1,65 @@
+<!-- Tailwind CSS Demo -->
+<div class="min-h-screen bg-linear-to-br from-blue-500 via-purple-500 to-pink-500 p-8">
+  <div class="max-w-4xl mx-auto">
+    <!-- Header -->
+    <h1 class="text-5xl font-bold text-white text-center mb-8 drop-shadow-lg">
+      🎨 Tailwind CSS работает!
+    </h1>
+
+    <!-- Card Container -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+      <!-- Card 1 -->
+      <div class="bg-white rounded-lg shadow-2xl p-6 transform hover:scale-105 transition-transform duration-300">
+        <h2 class="text-2xl font-bold text-blue-600 mb-4">Карточка 1</h2>
+        <p class="text-gray-700 mb-4">Эта карточка использует Tailwind классы для стилизации.</p>
+        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+          Кнопка
+        </button>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="bg-white rounded-lg shadow-2xl p-6 transform hover:scale-105 transition-transform duration-300">
+        <h2 class="text-2xl font-bold text-purple-600 mb-4">Карточка 2</h2>
+        <p class="text-gray-700 mb-4">Hover эффекты и анимации работают отлично!</p>
+        <button class="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded">
+          Действие
+        </button>
+      </div>
+    </div>
+
+    <!-- Feature List -->
+    <div class="bg-white/90 backdrop-blur rounded-xl shadow-2xl p-8">
+      <h3 class="text-3xl font-bold text-gray-800 mb-6">Возможности Tailwind:</h3>
+      <ul class="space-y-4">
+        <li class="flex items-center space-x-3">
+          <span class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-white font-bold">✓</span>
+          <span class="text-gray-700 text-lg">Responsive дизайн</span>
+        </li>
+        <li class="flex items-center space-x-3">
+          <span class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold">✓</span>
+          <span class="text-gray-700 text-lg">Hover эффекты</span>
+        </li>
+        <li class="flex items-center space-x-3">
+          <span class="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center text-white font-bold">✓</span>
+          <span class="text-gray-700 text-lg">Анимации и переходы</span>
+        </li>
+        <li class="flex items-center space-x-3">
+          <span class="w-8 h-8 bg-pink-500 rounded-full flex items-center justify-center text-white font-bold">✓</span>
+          <span class="text-gray-700 text-lg">Градиенты</span>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Badge Examples -->
+    <div class="mt-8 flex flex-wrap gap-4 justify-center">
+      <span class="bg-red-500 text-white px-4 py-2 rounded-full font-semibold">Красный</span>
+      <span class="bg-yellow-500 text-white px-4 py-2 rounded-full font-semibold">Желтый</span>
+      <span class="bg-green-500 text-white px-4 py-2 rounded-full font-semibold">Зеленый</span>
+      <span class="bg-blue-500 text-white px-4 py-2 rounded-full font-semibold">Синий</span>
+      <span class="bg-indigo-500 text-white px-4 py-2 rounded-full font-semibold">Индиго</span>
+      <span class="bg-purple-500 text-white px-4 py-2 rounded-full font-semibold">Фиолетовый</span>
+    </div>
+  </div>
+</div>
+
 <router-outlet />

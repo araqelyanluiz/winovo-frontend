@@ -1,17 +1,13 @@
 export interface Theme {
   primary: string;
   secondary: string;
-  background: string;
-  text: string;
   success: string;
   warning: string;
   danger: string;
 }
 
 export interface Features {
-  enableAuth: boolean;
-  enablePayments: boolean;
-  enablePromotions: boolean;
+  [key: string]: boolean;
 }
 
 export interface SEO {
@@ -20,7 +16,7 @@ export interface SEO {
   keywords: string[];
 }
 
-export interface Config {
+export interface AppConfig {
   projectName: string;
   theme: Theme;
   features: Features;
