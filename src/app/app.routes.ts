@@ -12,5 +12,4 @@ export const routes: Routes = [
     { path: 'casino', component: Casino },
     { path: 'search', component: Search },
     { path: 'wallet', component: Wallet },
-    { path: '**', redirectTo: 'home' },
 ];

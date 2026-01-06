@@ -20,31 +20,35 @@
           "id": "home",
           "label": "Home",
           "icon": "/assets/icons/home.svg",
-          "url": "/",
+          "url": "/home",
           "enabled": true
         },
         {
           "id": "casino",
           "label": "Casino",
           "icon": "/assets/icons/casino.svg",
+          "url": "/casino",
           "enabled": true
         },
         {
           "id":"search",
           "label":"Search",
           "icon":"/assets/icons/search.svg",
+          "url":"/search",
           "enabled": true
         },
         {
           "id":"wallet",
           "label":"Wallet",
           "icon":"/assets/icons/wallet.svg",
+          "url":"/wallet",
           "enabled": true
         },
         {
           "id":"profile",
           "label":"Profile",
           "icon":"/assets/icons/profile.svg",
+          "url":"/profile",
           "enabled": true
         }
       ]

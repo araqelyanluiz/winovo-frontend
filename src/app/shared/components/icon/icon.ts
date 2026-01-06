@@ -58,11 +58,11 @@ import { Subject, takeUntil } from 'rxjs';
       color: inherit;
     }
 
-    .app-icon ::ng-deep svg [fill]:not([fill="none"]) {
+    .app-icon ::ng-deep svg [fill="currentColor"] {
       fill: currentColor;
     }
 
-    .app-icon ::ng-deep svg [stroke]:not([stroke="none"]) {
+    .app-icon ::ng-deep svg [stroke="currentColor"] {
       stroke: currentColor;
     }
 
