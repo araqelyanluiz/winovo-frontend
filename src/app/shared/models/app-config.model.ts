@@ -1,3 +1,5 @@
+import { NavigationItem } from "../../layout/navigation/navigation.model";
+
 export interface Theme {
   primary: string;
   secondary: string;
@@ -34,11 +36,19 @@ export interface Localization {
   languages: Language[];
 }
 
+export interface Layout {
+  navigation: {
+    isVisible: boolean;
+    items: NavigationItem[]; 
+  };
+}
+
 export interface AppConfig {
   projectName: string;
   logo: Logo;
   theme: Theme;
   features: Features;
+  layout: Layout;
   localization: Localization;
   seo: SEO;
 }

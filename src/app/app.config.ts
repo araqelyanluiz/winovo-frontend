@@ -7,6 +7,7 @@ import { provideClientHydration, withEventReplay } from '@angular/platform-brows
 import { ConfigService } from './core/services/config/config.service';
 import { ThemeService } from './core/services/theme/theme.service';
 import { LocalizationService } from './core/services/localization/localization.service';
+import { IconInitService } from './core/services/icon-init/icon-init.service';
 import { TranslateModule, TranslateLoader, TranslateService } from '@ngx-translate/core';
 import { firstValueFrom, Observable } from 'rxjs';
 import { inject } from '@angular/core';
@@ -23,6 +24,7 @@ function initializeApp(
   configService: ConfigService, 
   themeService: ThemeService, 
   localizationService: LocalizationService,
+  iconInitService: IconInitService,
   title: Title, 
   meta: Meta
 ) {
@@ -32,6 +34,7 @@ function initializeApp(
     meta.updateTag({ name: 'keywords', content: config.seo.keywords.join(', ') });
     themeService.initialize();
     localizationService.initialize();
+    iconInitService.initialize();
   });
 }
 
@@ -52,7 +55,7 @@ export const appConfig: ApplicationConfig = {
     {
       provide: APP_INITIALIZER,
       useFactory: initializeApp,
-      deps: [ConfigService, ThemeService, LocalizationService, Title, Meta],
+      deps: [ConfigService, ThemeService, LocalizationService, IconInitService, Title, Meta],
       multi: true
     }
   ]

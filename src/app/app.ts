@@ -4,10 +4,13 @@ import { TranslateModule } from '@ngx-translate/core';
 import { LocalizationService } from './core/services/localization/localization.service';
 import { Language } from './shared/models/app-config.model';
 import { CommonModule } from '@angular/common';
+import { Header } from './layout/header/header';
+import { Navigation } from './layout/navigation/navigation';
+import { Footer } from './layout/footer/footer';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, TranslateModule, CommonModule],
+  imports: [RouterOutlet, TranslateModule, CommonModule, Header, Navigation, Footer],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })

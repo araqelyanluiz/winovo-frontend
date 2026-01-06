@@ -18,7 +18,49 @@
   "features": {
     
   },
-
+  "layout":{
+    "navigation":{
+      "isVisible": true,
+      "items":[
+        {
+          "id": "home",
+          "label": "Home",
+          "icon": "🏠",
+          "url": "/",
+          "enabled": true
+        },
+        {
+          "id": "games",
+          "label": "Games",
+          "icon": "🎲",
+          "enabled": true,
+          "children": [
+            {
+              "id": "slots",
+              "label": "Slots",
+              "icon": "🎰",
+              "url": "/games/slots",
+              "enabled": true
+            },
+            {
+              "id": "live-casino",
+              "label": "Live Casino",
+              "icon": "🃏",
+              "url": "/games/live",
+              "enabled": true
+            },
+            {
+              "id": "table-games",
+              "label": "Table Games",
+              "icon": "♠️",
+              "url": "/games/table",
+              "enabled": true
+            }
+          ]
+        }
+      ]
+    }
+  },
   "localization": {
     "defaultLanguage": "en",
     "languages": [
