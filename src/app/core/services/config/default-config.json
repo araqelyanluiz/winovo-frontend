@@ -52,6 +52,29 @@
           "enabled": true
         }
       ]
+    },
+    "footer":{
+      "isVisible": true,
+      "links": [
+        {
+          "label": "Privacy",
+          "url": "/privacy-policy"
+        },
+        {
+          "label": "Terms",
+          "url": "/terms-of-service"
+        },
+        {
+          "label": "Support",
+          "url": "/support"
+        },
+        {
+          "label": "FAQ",
+          "url": "/faq"
+        }
+      ],
+      "content": "18+ | Play Responsibly | Gambling can be addictive",
+      "copyright": "© 2025 Winovo. All rights reserved."
     }
   },
   "localization": {

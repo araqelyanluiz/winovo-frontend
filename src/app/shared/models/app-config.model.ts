@@ -1,4 +1,5 @@
 import { NavigationItem } from "../../layout/navigation/navigation.model";
+import { FooterConfig } from "../../layout/footer/footer.model";
 
 export interface Theme {
   primary: string;
@@ -37,6 +38,7 @@ export interface Layout {
     isVisible: boolean;
     items: NavigationItem[]; 
   };
+  footer: FooterConfig;
 }
 
 export interface AppConfig {
