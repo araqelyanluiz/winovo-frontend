@@ -5,7 +5,7 @@ import {
   OnDestroy,
   inject,
   signal,
-  computed,
+  effect,
   ChangeDetectionStrategy
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -21,33 +21,14 @@ import { Subject, takeUntil } from 'rxjs';
     @if (svgContent()) {
       <span 
         class="app-icon"
-        [style.width.px]="size()"
-        [style.height.px]="size()"
-        [style.min-width.px]="size()"
-        [style.min-height.px]="size()"
-        [style.display]="'inline-flex'"
-        [style.align-items]="'center'"
-        [style.justify-content]="'center'"
         [innerHTML]="svgContent()"
       ></span>
     } @else if (loading()) {
-      <span 
-        class="app-icon app-icon-loading"
-        [style.width.px]="size()"
-        [style.height.px]="size()"
-        [style.min-width.px]="size()"
-        [style.min-height.px]="size()"
-        [style.display]="'inline-flex'"
-      ></span>
+      <span class="app-icon app-icon-loading"></span>
     } @else {
       <span 
         class="app-icon app-icon-missing"
-        [style.width.px]="size()"
-        [style.height.px]="size()"
-        [style.min-width.px]="size()"
-        [style.min-height.px]="size()"
-        [style.display]="'inline-flex'"
-        [title]="'Icon not found: ' + name()"
+        [title]="'Icon not found: ' + iconName()"
       >?</span>
     }
   `,
@@ -56,9 +37,16 @@ import { Subject, takeUntil } from 'rxjs';
       display: inline-flex;
       align-items: center;
       justify-content: center;
+      line-height: 1;
+      flex-shrink: 0;
     }
 
     .app-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
       line-height: 1;
       flex-shrink: 0;
     }
@@ -67,6 +55,15 @@ import { Subject, takeUntil } from 'rxjs';
       width: 100%;
       height: 100%;
       display: block;
+      color: inherit;
+    }
+
+    .app-icon ::ng-deep svg [fill]:not([fill="none"]) {
+      fill: currentColor;
+    }
+
+    .app-icon ::ng-deep svg [stroke]:not([stroke="none"]) {
+      stroke: currentColor;
     }
 
     .app-icon-loading {
@@ -95,72 +92,30 @@ export class Icon implements OnInit, OnDestroy {
   private readonly iconRegistry = inject(IconRegistry);
   private readonly destroy$ = new Subject<void>();
 
-  // Inputs as signals
-  readonly name = signal<string>('');
-  readonly size = signal<number>(24);
-  readonly color = signal<string | null>(null);
-  readonly strokeWidth = signal<number | null>(null);
+  // Public signals for inputs
+  readonly iconName = signal<string>('');
   
   // State signals
   readonly svgContent = signal<SafeHtml | null>(null);
   readonly loading = signal<boolean>(false);
 
-  // Computed processed SVG
-  private readonly processedSvg = computed(() => {
-    const svg = this.svgContent();
-    const color = this.color();
-    const strokeWidth = this.strokeWidth();
-    
-    if (!svg || typeof svg !== 'string') return svg;
-
-    let processed = svg as string;
-
-    // Apply color if specified
-    if (color) {
-      processed = processed
-        .replace(/fill="[^"]*"/g, `fill="${color}"`)
-        .replace(/stroke="[^"]*"/g, `stroke="${color}"`);
-      
-      // If no fill/stroke attributes, add them to svg tag
-      if (!processed.includes('fill=') && !processed.includes('currentColor')) {
-        processed = processed.replace('<svg', `<svg fill="${color}"`);
+  constructor() {
+    // Watch for icon name changes
+    effect(() => {
+      const name = this.iconName();
+      if (name) {
+        this.loadIcon();
       }
-    }
-
-    // Apply stroke width if specified
-    if (strokeWidth !== null) {
-      processed = processed.replace(/stroke-width="[^"]*"/g, `stroke-width="${strokeWidth}"`);
-    }
-
-    return processed as unknown as SafeHtml;
-  });
-
-  @Input()
-  set iconName(value: string) {
-    this.name.set(value);
+    });
   }
 
   @Input()
-  set iconSize(value: number | string) {
-    this.size.set(typeof value === 'string' ? parseInt(value, 10) : value);
-  }
-
-  @Input()
-  set iconColor(value: string | null) {
-    this.color.set(value);
-  }
-
-  @Input()
-  set iconStrokeWidth(value: number | string | null) {
-    if (value === null) {
-      this.strokeWidth.set(null);
-    } else {
-      this.strokeWidth.set(typeof value === 'string' ? parseInt(value, 10) : value);
-    }
+  set name(value: string) {
+    this.iconName.set(value);
   }
 
   ngOnInit(): void {
-    this.loadIcon();
+    // Effect will handle loading
   }
 
   ngOnDestroy(): void {
@@ -169,15 +124,14 @@ export class Icon implements OnInit, OnDestroy {
   }
 
   private loadIcon(): void {
-    const iconName = this.name();
+    const name = this.iconName();
     
-    if (!iconName) {
-      console.warn('Icon name is required');
+    if (!name) {
       return;
     }
 
     // Try to get from cache first
-    const cached = this.iconRegistry.getIcon(iconName);
+    const cached = this.iconRegistry.getIcon(name);
     if (cached) {
       this.svgContent.set(cached);
       return;
@@ -185,9 +139,9 @@ export class Icon implements OnInit, OnDestroy {
 
     // If not in cache, try loading from URL
     this.loading.set(true);
-    const url = `/assets/icons/${iconName}.svg`;
+    const url = `/assets/icons/${name}.svg`;
     
-    this.iconRegistry.registerIconFromUrl(iconName, url)
+    this.iconRegistry.registerIconFromUrl(name, url)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (svg) => {
@@ -195,7 +149,7 @@ export class Icon implements OnInit, OnDestroy {
           this.loading.set(false);
         },
         error: (error) => {
-          console.error(`Failed to load icon "${iconName}":`, error);
+          console.error(`Failed to load icon "${name}":`, error);
           this.loading.set(false);
         }
       });

@@ -1,17 +1,62 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 @theme {
   --color-primary: var(--primary);
   --color-secondary: var(--secondary);
+  --color-skin1: var(--skin1);
   --color-success: var(--success);
   --color-warning: var(--warning);
   --color-danger: var(--danger);
 }
 
-:root {
-  --primary: oklch(0.70 0.15 285);
-  --secondary: oklch(0.93 0.19 108);
-  --success: oklch(0.65 0.20 145);
-  --warning: oklch(0.75 0.15 70);
-  --danger: oklch(0.60 0.22 25);
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
 }
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-size: 16px;
+  line-height: 1.5;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  color: #ffffff;
+  background-color: #000000;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+* {
+  &::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: var(--color-skin1);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--color-primary);
+    border-radius: 3px;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    opacity: 0.8;
+  }
+
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-primary) var(--color-skin1);
+}
+
+

@@ -1,1 +1,31 @@
-<p>header</p>
+<header class="sticky top-0 z-40 border-b border-white/5 bg-skin1">
+    <div class="flex items-center justify-between px-3 py-1.5">
+        <div class="flex items-center cursor-pointer" routerLink="">
+            <img
+                [src]="appConfig().logo"
+                [alt]="appConfig().projectName + ' Logo'"
+                class="h-8 w-auto"
+            />
+        </div>
+        <div class="flex items-center gap-2">
+            <button 
+                routerLink="/search"
+                aria-label="Search"
+                class="group w-9 h-9 rounded-xl bg-white/5 flex items-center justify-center cursor-pointer hover:bg-white/10 transition-colors ease-in-out duration-200"
+            >
+                <app-icon name="search-base" class="w-4 h-4 text-primary/50 group-hover:text-primary transition-colors ease-in-out duration-200"></app-icon>
+            </button>
+            <button class="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-gradient-to-r from-secondary/30 to-secondary/20 border border-secondary/30 hover:border-secondary/50 transition-colors cursor-pointer" routerLink="/wallet">
+                <app-icon name="wallet-base" class="w-4 h-4 text-secondary"></app-icon>
+                <span class="text-sm font-bold text-secondary">$1,250.61</span>
+            </button>
+            <button class="flex items-center gap-2 rounded-xl border border-primary/60 h-8 w-8 overflow-hidden cursor-pointer" routerLink="/profile">
+                <img
+                    [src]="userProfile?.avatarUrl || 'assets/images/default-avatar.png'"
+                    [alt]="userProfile?.name + ' Avatar'"
+                    class="object-cover"
+                />
+            </button>
+        </div>
+    </div>
+</header>

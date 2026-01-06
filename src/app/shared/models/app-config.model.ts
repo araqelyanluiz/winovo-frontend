@@ -3,6 +3,8 @@ import { NavigationItem } from "../../layout/navigation/navigation.model";
 export interface Theme {
   primary: string;
   secondary: string;
+  skin1: string;
+  purple900: string;
   success: string;
   warning: string;
   danger: string;
@@ -16,12 +18,6 @@ export interface SEO {
   title: string;
   description: string;
   keywords: string[];
-}
-
-export interface Logo {
-  light: string;
-  dark: string;
-  favicon: string;
 }
 
 export interface Language {
@@ -45,7 +41,7 @@ export interface Layout {
 
 export interface AppConfig {
   projectName: string;
-  logo: Logo;
+  logo: string;
   theme: Theme;
   features: Features;
   layout: Layout;
