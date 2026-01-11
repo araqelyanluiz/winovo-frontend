@@ -1,0 +1,9 @@
+/* Search input focus effects */
+input:focus {
+  box-shadow: 0 0 0 1px rgba(var(--primary-rgb, 251, 191, 36), 0.2);
+}
+
+/* Smooth transitions */
+button {
+  transition: all 0.2s ease;
+}
