@@ -1,14 +1,20 @@
 import { Component } from '@angular/core';
 import { PromoCarousel } from '../../shared/components/promo-carousel/promo-carousel';
-import { PromoSlide } from '../../shared/components/promo-carousel/promo-carousel.model';
+import { PromoSlide } from '../../shared/components/promo-carousel/models/promo-carousel.model';
+import { Categories } from "../../shared/components/categories/categories";
 
 @Component({
   selector: 'app-home',
-  imports: [PromoCarousel],
+  imports: [PromoCarousel, Categories],
   templateUrl: './home.html',
   styleUrl: './home.css',
 })
 export class Home {
+  // Carousel configuration
+  carouselAutoplay = true;
+  carouselAutoplayMs = 5000;
+  carouselPeekPx = 32;
+
   carouselSlides: PromoSlide[] = [
     {
       id: 'vip-program',

@@ -59,4 +59,10 @@ body {
   scrollbar-color: var(--color-primary) var(--color-skin1);
 }
 
-
+/* Glass Effect */
+.glass {
+  background: linear-gradient(135deg, rgb(34 3 80 / 56%) 0%, rgb(24 19 29 / 13%) 100%);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}

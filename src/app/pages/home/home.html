@@ -1,3 +1,11 @@
 <section class="py-2">
-    <app-promo-carousel [slides]="carouselSlides"></app-promo-carousel>
+  <app-promo-carousel 
+    [slides]="carouselSlides"
+    [autoplay]="carouselAutoplay"
+    [autoplayMs]="carouselAutoplayMs"
+    [peekPx]="carouselPeekPx"
+  />
+</section>
+<section class="py-2">
+    <app-categories></app-categories>
 </section>

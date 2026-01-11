@@ -10,7 +10,7 @@ import {
   ElementRef,
 } from '@angular/core';
 import { isPlatformBrowser, CommonModule } from '@angular/common';
-import { PromoSlide } from './promo-carousel.model';
+import { PromoSlide } from './models/promo-carousel.model';
 
 @Component({
   selector: 'app-promo-carousel',

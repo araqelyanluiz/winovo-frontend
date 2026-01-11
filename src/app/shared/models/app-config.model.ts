@@ -12,7 +12,7 @@ export interface Theme {
 }
 
 export interface Features {
-  [key: string]: boolean;
+  
 }
 
 export interface SEO {
@@ -41,11 +41,26 @@ export interface Layout {
   footer: FooterConfig;
 }
 
+export interface PageSection {
+  id: string;
+  feature: string;
+  enabled: boolean;
+  order: number;
+}
+
+export interface Pages {
+  home?: {
+    sections: PageSection[];
+  };
+  [key: string]: any;
+}
+
 export interface AppConfig {
   projectName: string;
   logo: string;
   theme: Theme;
   features: Features;
+  pages?: Pages;
   layout: Layout;
   localization: Localization;
   seo: SEO;
