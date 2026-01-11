@@ -1,1 +1,64 @@
-<p>casino works!</p>
+<div class="container mx-auto px-4 py-6">
+  <div class="mb-6">
+    <div 
+      #categoriesSlider
+      class="filter-slider flex gap-2 overflow-x-auto scroll-smooth pb-2 scrollbar-hide"
+      (mousedown)="onMouseDown($event, categoriesSlider)"
+      (mousemove)="onMouseMove($event)"
+      (mouseup)="onMouseUp()"
+      (mouseleave)="onMouseUp()"
+    >
+      @for (category of categories; track category.id) {
+        <button 
+          (click)="selectCategory(category.id)"
+          [class]="getCategoryClass(category.id)"
+          class="px-6 py-3 rounded-full font-semibold text-sm whitespace-nowrap transition-all cursor-pointer border border-white/5"
+        >
+          {{ category.name }}
+        </button>
+      }
+    </div>
+  </div>
+
+  <!-- Providers Filter -->
+  <div class="mb-6">
+    <div 
+      #providersSlider
+      class="filter-slider flex gap-2 overflow-x-auto scroll-smooth pb-2 scrollbar-hide"
+      (mousedown)="onMouseDown($event, providersSlider)"
+      (mousemove)="onMouseMove($event)"
+      (mouseup)="onMouseUp()"
+      (mouseleave)="onMouseUp()"
+    >
+      @for (provider of providers; track provider.id) {
+        <button 
+          (click)="selectProvider(provider.id)"
+          [class]="getProviderClass(provider.id)"
+          class="px-4 py-2 rounded-full border text-sm font-medium whitespace-nowrap transition-all cursor-pointer"
+        >
+          {{ provider.name }}
+        </button>
+      }
+    </div>
+  </div>
+
+  <!-- Games Grid -->
+  <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
+    @for (game of filteredGames(); track game.id) {
+      <app-game-card [game]="game"></app-game-card>
+    }
+  </div>
+
+  <!-- Empty State -->
+  @if (filteredGames().length === 0) {
+    <div class="text-center py-12">
+      <p class="text-white/50 text-lg">No games found</p>
+      <button 
+        (click)="resetFilters()"
+        class="mt-4 px-6 py-2 bg-primary text-black rounded-lg font-semibold hover:bg-primary/90 transition-colors"
+      >
+        Reset Filters
+      </button>
+    </div>
+  }
+</div>

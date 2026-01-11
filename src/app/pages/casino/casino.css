@@ -1,0 +1,37 @@
+/* Hide scrollbar for horizontal filters */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Smooth scrolling */
+.scroll-smooth {
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Drag to scroll for filters */
+.filter-slider {
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+.filter-slider:active {
+  cursor: grabbing;
+}
+
+.filter-slider.dragging {
+  cursor: grabbing;
+}
+
+.filter-slider.dragging * {
+  pointer-events: none;
+}
+
