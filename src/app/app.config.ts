@@ -8,6 +8,7 @@ import { ConfigService } from './core/services/config/config.service';
 import { ThemeService } from './core/services/theme/theme.service';
 import { LocalizationService } from './core/services/localization/localization.service';
 import { IconInitService } from './core/services/icon-init/icon-init.service';
+import { TelegramAuthService } from './core/services/telegram/telegram-auth.service';
 import { TranslateModule, TranslateLoader, TranslateService } from '@ngx-translate/core';
 import { firstValueFrom, Observable } from 'rxjs';
 import { inject } from '@angular/core';
@@ -25,6 +26,7 @@ function initializeApp(
   themeService: ThemeService, 
   localizationService: LocalizationService,
   iconInitService: IconInitService,
+  telegramAuthService: TelegramAuthService,
   title: Title, 
   meta: Meta
 ) {
@@ -35,6 +37,17 @@ function initializeApp(
     themeService.initialize();
     localizationService.initialize();
     iconInitService.initialize();
+    
+    // Initialize Telegram WebApp
+    telegramAuthService.initialize();
+    
+    // Check if user exists in backend
+    const userId = telegramAuthService.getUserId() || 798788716;
+    if (userId) {
+      telegramAuthService.checkUserExists().subscribe(response => {
+        console.log('User exists check:', response);
+      });
+    }
   });
 }
 
@@ -55,7 +68,7 @@ export const appConfig: ApplicationConfig = {
     {
       provide: APP_INITIALIZER,
       useFactory: initializeApp,
-      deps: [ConfigService, ThemeService, LocalizationService, IconInitService, Title, Meta],
+      deps: [ConfigService, ThemeService, LocalizationService, IconInitService, TelegramAuthService, Title, Meta],
       multi: true
     }
   ]

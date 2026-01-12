@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  apiUrl: '',
+  apiUrl: '', // Замените на ваш production API URL
   configUrl: ''
 };

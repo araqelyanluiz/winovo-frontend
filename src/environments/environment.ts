@@ -1,6 +1,5 @@
 export const environment = {
   production: false,
-  apiUrl: '',
-  //   configUrl:'https://assets-zyntrix.energaming.services/PMBETTZ/configs/config.json',
+  apiUrl: 'https://api.winovo.bet/api',
   configUrl: ''
 };
