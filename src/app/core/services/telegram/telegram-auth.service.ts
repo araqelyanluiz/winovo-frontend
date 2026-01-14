@@ -5,7 +5,6 @@ import { Observable, BehaviorSubject, of } from 'rxjs';
 import { tap, catchError } from 'rxjs/operators';
 import { environment } from '../../../../environments/environment';
 
-// Telegram WebApp types
 interface TelegramUser {
   id: number;
   first_name: string;
@@ -65,31 +64,22 @@ export class TelegramAuthService {
   private webApp: TelegramWebApp | null = null;
   private initialized = false;
 
-  /**
-   * Initialize Telegram WebApp and get user data
-   */
   initialize(): void {
     if (this.initialized) {
       return;
     }
 
-    // Only run in browser environment
     if (!isPlatformBrowser(this.platformId)) {
       console.warn('Telegram WebApp can only be initialized in browser');
       return;
     }
 
-    // Check if Telegram WebApp is available
     if (typeof window !== 'undefined' && window.Telegram?.WebApp) {
       this.webApp = window.Telegram.WebApp;
       
-      // Initialize Telegram WebApp
       this.webApp.ready();
-      
-      // Expand the app to full height
       this.webApp.expand();
       
-      // Get user data
       const user = this.webApp.initDataUnsafe?.user;
       if (user) {
         this.userSubject.next(user);
@@ -104,37 +94,22 @@ export class TelegramAuthService {
     }
   }
 
-  /**
-   * Get current Telegram user
-   */
   getUser(): TelegramUser | null {
     return this.userSubject.value;
   }
 
-  /**
-   * Get Telegram user ID
-   */
   getUserId(): number | null {
     return this.userSubject.value?.id || null;
   }
 
-  /**
-   * Get Telegram WebApp instance
-   */
   getWebApp(): TelegramWebApp | null {
     return this.webApp;
   }
 
-  /**
-   * Get initialization data (for backend verification)
-   */
   getInitData(): string {
     return this.webApp?.initData || '';
   }
 
-  /**
-   * Check if user is authenticated and exists in backend
-   */
   checkUserExists(): Observable<AuthResponse> {
     const user = this.getUser() || {id:798788716,username:"vahag_t"}; // Mock user for testing
     if (!user || !user.id) {
@@ -155,9 +130,6 @@ export class TelegramAuthService {
     );
   }
 
-  /**
-   * Check if Telegram WebApp is available
-   */
   isAvailable(): boolean {
     return isPlatformBrowser(this.platformId) && 
            typeof window !== 'undefined' && 

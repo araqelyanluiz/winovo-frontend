@@ -38,10 +38,8 @@ function initializeApp(
     localizationService.initialize();
     iconInitService.initialize();
     
-    // Initialize Telegram WebApp
     telegramAuthService.initialize();
     
-    // Check if user exists in backend
     const userId = telegramAuthService.getUserId() || 798788716;
     if (userId) {
       telegramAuthService.checkUserExists().subscribe(response => {

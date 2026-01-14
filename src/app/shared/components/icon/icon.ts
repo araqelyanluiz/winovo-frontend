@@ -92,15 +92,11 @@ export class Icon implements OnInit, OnDestroy {
   private readonly iconRegistry = inject(IconRegistry);
   private readonly destroy$ = new Subject<void>();
 
-  // Public signals for inputs
   readonly iconName = signal<string>('');
-  
-  // State signals
   readonly svgContent = signal<SafeHtml | null>(null);
   readonly loading = signal<boolean>(false);
 
   constructor() {
-    // Watch for icon name changes
     effect(() => {
       const name = this.iconName();
       if (name) {
@@ -114,9 +110,7 @@ export class Icon implements OnInit, OnDestroy {
     this.iconName.set(value);
   }
 
-  ngOnInit(): void {
-    // Effect will handle loading
-  }
+  ngOnInit(): void {}
 
   ngOnDestroy(): void {
     this.destroy$.next();
@@ -130,14 +124,12 @@ export class Icon implements OnInit, OnDestroy {
       return;
     }
 
-    // Try to get from cache first
     const cached = this.iconRegistry.getIcon(name);
     if (cached) {
       this.svgContent.set(cached);
       return;
     }
 
-    // If not in cache, try loading from URL
     this.loading.set(true);
     const url = `/assets/icons/${name}.svg`;
     

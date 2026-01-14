@@ -35,6 +35,12 @@ Conventions and code patterns to follow
 - Use `APP_INITIALIZER` for anything that must be ready before the app renders (config, translations, icon registration).
 - Keep browser-only DOM or `window`/`localStorage` usage behind platform checks; SSR will run code during server rendering.
 
+Code style and documentation
+- Do NOT add comments to code files (TypeScript, HTML, CSS) unless absolutely necessary for complex logic explanation.
+- Code should be self-documenting through clear naming and structure.
+- Avoid JSDoc comments, interface documentation comments, and explanatory comments for obvious code.
+- Only add comments when the logic is non-obvious or requires context that cannot be expressed through code itself.
+
 Integration points & external deps
 - SSR: `@angular/ssr` + Express (`src/server.ts`) — be mindful of middleware order and static file serving from the browser dist folder.
 - Translations: `@ngx-translate/core` + HTTP loader requesting `/assets/i18n/{lang}.json`.

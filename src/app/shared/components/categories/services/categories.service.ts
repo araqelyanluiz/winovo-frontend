@@ -7,7 +7,6 @@ import { GameCategory } from '../models/categories.model';
 })
 export class CategoriesService {
   
-  // Mock data - в будущем заменить на реальный API
   private mockCategories: GameCategory[] = [
     {
       id: 'slots',

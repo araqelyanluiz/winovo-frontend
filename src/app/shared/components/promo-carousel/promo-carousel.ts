@@ -33,21 +33,17 @@ export class PromoCarousel {
   private platformId = inject(PLATFORM_ID);
   private isBrowser = isPlatformBrowser(this.platformId);
 
-  // State signals
   currentIndex = signal(0);
   isHovered = signal(false);
   isDragging = signal(false);
 
-  // Drag state
   private dragStartX = 0;
   private scrollStartLeft = 0;
   private dragThreshold = 40;
 
-  // Autoplay
   private autoplayTimer?: ReturnType<typeof setInterval>;
 
   constructor() {
-    // Browser-only initialization
     if (this.isBrowser) {
       afterNextRender(() => {
         this.initBrowserFeatures();
@@ -56,15 +52,12 @@ export class PromoCarousel {
   }
 
   private initBrowserFeatures(): void {
-    // Keyboard navigation
     this.setupKeyboardNavigation();
 
-    // Start autoplay
     if (this.autoplay) {
       this.startAutoplay();
     }
 
-    // Sync scroll position with current index
     this.scrollToCurrentSlide(false);
   }
 
