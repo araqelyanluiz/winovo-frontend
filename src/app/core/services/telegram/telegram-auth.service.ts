@@ -148,9 +148,6 @@ export class TelegramAuthService {
         username: user.username,
       }
     ).pipe(
-      tap(response => {
-        console.log('User verification response:', response);
-      }),
       catchError(error => {
         console.error('Failed to verify user:', error);
         return of({ exists: false, message: 'Verification failed' });
