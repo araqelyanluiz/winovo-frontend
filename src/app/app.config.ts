@@ -1,5 +1,5 @@
 import { ApplicationConfig, provideBrowserGlobalErrorListeners, APP_INITIALIZER, importProvidersFrom } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import { provideRouter, Router } from '@angular/router';
 import { provideHttpClient, withFetch, HttpClient } from '@angular/common/http';
 import { Title, Meta } from '@angular/platform-browser';
 import { routes } from './app.routes';
@@ -28,7 +28,8 @@ function initializeApp(
   iconInitService: IconInitService,
   telegramAuthService: TelegramAuthService,
   title: Title, 
-  meta: Meta
+  meta: Meta,
+  router: Router
 ) {
   return () => firstValueFrom(configService.loadConfig()).then(config => {
     title.setTitle(config.seo.title);
@@ -39,13 +40,14 @@ function initializeApp(
     iconInitService.initialize();
     
     telegramAuthService.initialize();
-    
-    const userId = telegramAuthService.getUserId() || 798788716;
-    if (userId) {
-      telegramAuthService.checkUserExists().subscribe(response => {
-        console.log('User exists check:', response);
-      });
-    }
+    telegramAuthService.loadUserFromBackend(798788716, 'vahag_t').subscribe({
+      next: (success) => {
+        if (!success || !telegramAuthService.user()) {
+          router.navigate(['/404']);
+        }
+      },
+      error: () => router.navigate(['/404'])
+    });
   });
 }
 
@@ -66,7 +68,7 @@ export const appConfig: ApplicationConfig = {
     {
       provide: APP_INITIALIZER,
       useFactory: initializeApp,
-      deps: [ConfigService, ThemeService, LocalizationService, IconInitService, TelegramAuthService, Title, Meta],
+      deps: [ConfigService, ThemeService, LocalizationService, IconInitService, TelegramAuthService, Title, Meta, Router],
       multi: true
     }
   ]

@@ -31,6 +31,7 @@ Testing & debugging notes
 
 Conventions and code patterns to follow
 - File layout: pages are under `src/app/pages/*`, shared components under `src/app/shared/*`, and layout components under `src/app/layout/*`. New features should follow this structure.
+- Models (interfaces, types): MUST be created in dedicated model files, typically in a `models/` subdirectory next to the component/service. For example: `src/app/shared/components/categories/models/categories.model.ts` or `src/app/core/services/telegram/telegram-user.model.ts`. Never define models directly in component or service files.
 - Prefer signals/effects and standalone components (see `App` component usage of `signal()` and `bootstrapApplication`). Avoid introducing NgModule-based patterns.
 - Use `APP_INITIALIZER` for anything that must be ready before the app renders (config, translations, icon registration).
 - Keep browser-only DOM or `window`/`localStorage` usage behind platform checks; SSR will run code during server rendering.
@@ -41,10 +42,16 @@ Code style and documentation
 - Avoid JSDoc comments, interface documentation comments, and explanatory comments for obvious code.
 - Only add comments when the logic is non-obvious or requires context that cannot be expressed through code itself.
 
+Styling
+- ONLY use Tailwind CSS utility classes for styling. Do NOT write custom CSS in component .css files.
+- All styling must be done via Tailwind classes directly in the HTML templates.
+- Component .css files should remain empty or be used only for extremely rare edge cases that cannot be achieved with Tailwind.
+- Leverage Tailwind's utility-first approach for all layouts, colors, spacing, typography, and responsive design.
+
 Integration points & external deps
 - SSR: `@angular/ssr` + Express (`src/server.ts`) — be mindful of middleware order and static file serving from the browser dist folder.
 - Translations: `@ngx-translate/core` + HTTP loader requesting `/assets/i18n/{lang}.json`.
-- Styling: global `src/styles.css`; Tailwind/PostCSS dev dependencies exist in `package.json`.
+- Styling: Tailwind CSS (utility classes only); global `src/styles.css` for Tailwind directives; Tailwind/PostCSS configured in `package.json`.
 
 Examples (copyable patterns)
 - Registering an inline icon at startup: see `src/app/core/services/icon-init/icon-init.service.ts` — use `iconRegistry.registerIcons([...])` inside `initialize()` called from APP_INITIALIZER.

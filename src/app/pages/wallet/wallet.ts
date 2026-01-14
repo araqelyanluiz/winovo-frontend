@@ -1,22 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { Icon } from '../../shared/components/icon/icon';
-
-interface WalletAction {
-  id: string;
-  label: string;
-  icon: string;
-  color: 'green' | 'yellow' | 'purple';
-}
-
-interface Balance {
-  id: string;
-  name: string;
-  symbol: string;
-  amount: number;
-  usdValue: number;
-  changePercent: number;
-  iconBg: string;
-}
+import { WalletAction, Balance } from './models/wallet.model';
 
 @Component({
   selector: 'app-wallet',

@@ -1,5 +1,5 @@
-import { NavigationItem } from "../../layout/navigation/navigation.model";
-import { FooterConfig } from "../../layout/footer/footer.model";
+import { FooterConfig } from "../../../layout/footer/footer.model";
+import { NavigationItem } from "../../../layout/navigation/navigation.model";
 
 export interface Theme {
   primary: string;

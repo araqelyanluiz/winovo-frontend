@@ -4,11 +4,7 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
 import { map, catchError, shareReplay } from 'rxjs/operators';
-
-export interface IconConfig {
-  name: string;
-  svg: string;
-}
+import { IconConfig } from './models/icon.model';
 
 @Injectable({
   providedIn: 'root'

@@ -2,9 +2,9 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of, BehaviorSubject } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
-import { AppConfig } from '../../../shared/models/app-config.model';
 import defaultConfig from './default-config.json';
 import { environment } from '../../../../environments/environment';
+import { AppConfig } from './app-config.model';
 
 @Injectable({
   providedIn: 'root'

@@ -15,7 +15,7 @@ export class Navigation {
 
   readonly navigationItems = computed<NavigationItem[]>(() => {
     const config = this.configService.getConfig();
-    return config.layout?.navigation?.items?.filter(item => item.enabled) || [];
+    return config.layout?.navigation?.items?.filter((item: NavigationItem) => item.enabled) || [];
   });
 
   getIconName(iconPath: string): string {
