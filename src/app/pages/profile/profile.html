@@ -1,1 +1,93 @@
-<p>profile works!</p>
+<div class="px-4 py-8">
+    <div class="flex flex-col items-center text-center">
+        <div class="relative mb-3">
+            <div class="absolute -inset-2 bg-gradient-to-br from-primary/30 to-accent/30 rounded-full blur-xl"></div>
+            <img [src]="userAvatar()" [alt]="userName() + ' Avatar'"
+                class="relative w-30 h-30 rounded-full object-cover border-4 border-primary/30">
+        </div>
+        <h1 class="text-2xl font-bold text-white mb-1">{{ userName() }}</h1>
+        <p class="text-white/60">{{ userUsername() }}</p>
+    </div>
+</div>
+<div class="px-4 space-y-3 pb-6">
+    <button class="w-full flex items-center gap-4 p-4 bg-gradient-to-r from-card to-card/80 rounded-2xl border border-primary/20 hover:border-primary/40 hover:shadow-lg hover:shadow-primary/20 transition-all duration-300 group cursor-pointer">
+        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center text-primary group-hover:scale-110 transition-transform duration-200">
+            <app-icon name="bell" class="w-6 h-6"></app-icon>
+        </div>
+        <div class="flex-1 text-left">
+            <p class="font-semibold text-foreground">Notifications</p>
+            <p class="text-xs text-primary/40 mt-0.5">Push &amp; telegram settings</p>
+        </div>
+        <app-icon name="angle-right" class="text-primary transition-transform duration-300 group-hover:translate-x-1"></app-icon>
+    </button>
+    <button class="w-full flex items-center gap-4 p-4 bg-gradient-to-r from-card to-card/80 rounded-2xl border border-primary/20 hover:border-primary/40 hover:shadow-lg hover:shadow-primary/20 transition-all duration-300 group cursor-pointer">
+        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center text-primary group-hover:scale-110 transition-transform duration-200">
+            <app-icon name="gift" class="w-6 h-6"></app-icon>
+        </div>
+        <div class="flex-1 text-left">
+            <p class="font-semibold text-foreground">Bonuses</p>
+            <p class="text-xs text-primary/40 mt-0.5">Active promotions</p>
+        </div>
+        <app-icon name="angle-right" class="text-primary transition-transform duration-300 group-hover:translate-x-1"></app-icon>
+    </button>
+    <button class="w-full flex items-center gap-4 p-4 bg-gradient-to-r from-card to-card/80 rounded-2xl border border-primary/20 hover:border-primary/40 hover:shadow-lg hover:shadow-primary/20 transition-all duration-300 group cursor-pointer">
+        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center text-primary group-hover:scale-110 transition-transform duration-200">
+            <app-icon name="question-mark" class="w-6 h-6"></app-icon>
+        </div>
+        <div class="flex-1 text-left">
+            <p class="font-semibold text-foreground">Help & Support</p>
+            <p class="text-xs text-primary/40 mt-0.5">FAQ &amp; contact us</p>
+        </div>
+        <app-icon name="angle-right" class="text-primary transition-transform duration-300 group-hover:translate-x-1"></app-icon>
+    </button>
+</div>
+
+<!-- <div class="min-h-screen pb-4">
+    <div class="flex flex-col items-center pt-8 pb-6">
+        <div class="relative mb-4">
+            <div class="absolute inset-0 bg-primary/20 rounded-full blur-2xl"></div>
+            <img
+                [src]="userAvatar()"
+                [alt]="userName() + ' Avatar'"
+                class="relative w-32 h-32 rounded-full object-cover border-4 border-primary/30"
+            />
+        </div>
+        <h1 class="text-2xl font-bold text-white mb-1">{{ userName() }}</h1>
+        <p class="text-white/60">{{ userUsername() }}</p>
+    </div>
+
+    <div class="px-4 space-y-3">
+        <button class="w-full bg-white/5 hover:bg-white/10 transition-colors rounded-2xl p-4 flex items-center gap-4">
+            <div class="w-12 h-12 bg-primary/20 rounded-xl flex items-center justify-center flex-shrink-0">
+                <app-icon name="bell" class="w-6 h-6 text-primary"></app-icon>
+            </div>
+            <div class="flex-1 text-left">
+                <h3 class="text-white font-bold text-base mb-0.5">Notifications</h3>
+                <p class="text-white/60 text-sm">Push & telegram settings</p>
+            </div>
+            <app-icon name="chevron-right" class="w-5 h-5 text-white/40 flex-shrink-0"></app-icon>
+        </button>
+
+        <button class="w-full bg-white/5 hover:bg-white/10 transition-colors rounded-2xl p-4 flex items-center gap-4">
+            <div class="w-12 h-12 bg-secondary/20 rounded-xl flex items-center justify-center flex-shrink-0">
+                <app-icon name="gift" class="w-6 h-6 text-secondary"></app-icon>
+            </div>
+            <div class="flex-1 text-left">
+                <h3 class="text-white font-bold text-base mb-0.5">Bonuses</h3>
+                <p class="text-white/60 text-sm">Active promotions</p>
+            </div>
+            <app-icon name="chevron-right" class="w-5 h-5 text-white/40 flex-shrink-0"></app-icon>
+        </button>
+
+        <button class="w-full bg-white/5 hover:bg-white/10 transition-colors rounded-2xl p-4 flex items-center gap-4">
+            <div class="w-12 h-12 bg-primary/20 rounded-xl flex items-center justify-center flex-shrink-0">
+                <app-icon name="question-circle" class="w-6 h-6 text-primary"></app-icon>
+            </div>
+            <div class="flex-1 text-left">
+                <h3 class="text-white font-bold text-base mb-0.5">Help & Support</h3>
+                <p class="text-white/60 text-sm">FAQ & contact us</p>
+            </div>
+            <app-icon name="chevron-right" class="w-5 h-5 text-white/40 flex-shrink-0"></app-icon>
+        </button>
+    </div>
+</div> -->
