@@ -2,8 +2,8 @@ import { HttpClient, HttpParams } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
 import { Observable, map } from "rxjs";
 import { environment } from "../../../../environments/environment";
-import { Game } from "./game.model";
-import { GameListResponse } from "./game-response.model";
+import { Game, Provider } from "./game.model";
+import { GameListResponse, ProviderListResponse } from "./game-response.model";
 
 @Injectable({
   providedIn: 'root'
@@ -23,6 +23,12 @@ export class GameService {
     getGamesByTagType(tagType: string): Observable<Game[]> {
         return this.getGames().pipe(
             map(games => games.filter(game => game.tagType === tagType))
+        );
+    }
+
+    getProviders(): Observable<Provider[]> {
+        return this.http.get<ProviderListResponse>(`${this.API_URL}/get/providers-config`).pipe(
+            map(response => response.providers)
         );
     }
 }

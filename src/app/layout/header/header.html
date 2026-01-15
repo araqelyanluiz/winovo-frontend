@@ -1,4 +1,4 @@
-<header class="sticky top-0 z-40 border-b border-white/5 bg-skin1">
+<header class="fixed top-0 left-0 right-0 z-40 border-b border-white/5 bg-skin1 max-w-3xl mx-auto">
     <div class="flex items-center justify-between px-3 py-1.5">
         <div class="flex items-center cursor-pointer" routerLink="">
             <img
@@ -16,7 +16,7 @@
             </button>
             <button class="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-gradient-to-r from-secondary/30 to-secondary/20 border border-secondary/30 hover:border-secondary/50 transition-colors cursor-pointer" routerLink="/wallet">
                 <app-icon name="wallet-base" class="w-4 h-4 text-secondary"></app-icon>
-                <span class="text-sm font-bold text-secondary">${{ userBalance() | number:'1.2-2' }}</span>
+                <span class="text-sm font-bold text-secondary">{{userBalanceCurrency()}} {{ userBalance() | number:'1.2-2' }}</span>
             </button>
             <button class="flex items-center gap-2 rounded-xl border border-primary/60 h-8 w-8 overflow-hidden cursor-pointer" routerLink="/profile">
                 <img

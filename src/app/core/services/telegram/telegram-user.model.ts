@@ -1,7 +1,11 @@
-export type TelegramUserBalances = Record<string, number>;
+export type TelegramUserBalances = {
+  currency: string;
+  balance: number;
+  default: boolean;
+};
 
 export interface TelegramUser {
-  balances: TelegramUserBalances;
+  balances: TelegramUserBalances[];
   created_at: string;
   first_name: string;
   last_name: string;

@@ -41,7 +41,7 @@
         <app-icon name="angle-right" class="text-secondary transition-transform duration-300 group-hover:translate-x-1"></app-icon>
       </button>
     </div>
-    <div class="grid grid-cols-2 md:grid-cols-5 gap-3 md:gap-4">
+    <div class="grid grid-cols-3 md:grid-cols-5 gap-3 md:gap-4">
       @for (game of games(); track game.id) {
         <app-game-card [game]="game" />
       }

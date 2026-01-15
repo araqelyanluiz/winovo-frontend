@@ -1,3 +1,7 @@
+export interface Provider {
+  name: string;
+  games: string[];
+}
 export interface Game {
   id: string;
   name: string;

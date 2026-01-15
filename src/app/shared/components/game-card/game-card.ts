@@ -12,8 +12,6 @@ export class GameCard {
   game = input<Game>();
 
   constructor() {
-    effect(() => {
-      console.log('Game:', this.game());
-    });
+    
   }
 }

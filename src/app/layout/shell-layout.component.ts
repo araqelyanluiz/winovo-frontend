@@ -12,7 +12,7 @@ import { Header } from "./header/header";
     <div class="min-h-screen flex flex-col max-w-3xl mx-auto bg-skin1">
         <div class="flex flex-col">
             <app-header />
-            <main class="flex-1">
+            <main class="flex-1 pt-15">
                 <router-outlet />
             </main>
             <app-footer />

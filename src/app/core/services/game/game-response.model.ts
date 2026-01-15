@@ -2,4 +2,8 @@ export interface GameListResponse {
   result: Game[];
 }
 
-import { Game } from './game.model';
+export interface ProviderListResponse {
+  providers: Provider[];
+}
+
+import { Game, Provider } from './game.model';
