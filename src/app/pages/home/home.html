@@ -1,8 +1,50 @@
 <section class="py-2">
-  <app-promo-carousel 
-    [slides]="carouselSlides"
-    [autoplay]="carouselAutoplay"
-    [autoplayMs]="carouselAutoplayMs"
-    [peekPx]="carouselPeekPx"
-  />
+  <app-promo-carousel [slides]="carouselSlides" [autoplay]="carouselAutoplay" [autoplayMs]="carouselAutoplayMs"
+    [peekPx]="carouselPeekPx" />
+</section>
+<section class="py-2">
+  <div class="container mx-auto px-4">
+    <div class="flex items-center justify-start mb-4">
+      <app-icon name="cup"></app-icon>
+      <h2 class="text-xl md:text-2xl font-bold text-white ml-2"> Top Games</h2>
+    </div>
+    <app-global-slider [items]="topGames()" />
+  </div>
+</section>
+<section class="py-2">
+  <div class="container mx-auto px-4">
+    <div class="flex items-center justify-start mb-4">
+      <app-icon name="fire"></app-icon>
+      <h2 class="text-xl md:text-2xl font-bold text-white ml-2"> Hot Games</h2>
+    </div>
+    <app-global-slider [items]="hotGames()" />
+  </div>
+</section>
+<section class="py-2">
+  <div class="container mx-auto px-4">
+    <div class="flex items-center justify-start mb-4">
+      <app-icon name="sparkles"></app-icon>
+      <h2 class="text-xl md:text-2xl font-bold text-white ml-2"> New Games</h2>
+    </div>
+    <app-global-slider [items]="newGames()" />
+  </div>
+</section>
+<section class="py-2">
+  <div class="container mx-auto px-4">
+    <div class="flex items-center justify-between mb-4">
+      <div class="flex items-center justify-start">
+        <app-icon name="slot-machine"></app-icon>
+        <h2 class="text-xl md:text-2xl font-bold text-white ml-2"> All Slots</h2>
+      </div>
+      <button routerLink="/casino" class="group flex items-center justify-end cursor-pointer">
+        <span class="text-sm text-secondary">See All</span>
+        <app-icon name="angle-right" class="text-secondary transition-transform duration-300 group-hover:translate-x-1"></app-icon>
+      </button>
+    </div>
+    <div class="grid grid-cols-2 md:grid-cols-5 gap-3 md:gap-4">
+      @for (game of games(); track game.id) {
+        <app-game-card [game]="game" />
+      }
+    </div>
+  </div>
 </section>

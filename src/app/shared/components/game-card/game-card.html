@@ -1,28 +1,17 @@
-<div class="flex-shrink-0 group cursor-pointer tap-highlight">
-    <div class="border border-white/5 rounded-xl overflow-hidden relative hover:border-primary/50 shadow-primary/20  hover:shadow-md transition-all duration-300">
-        <div class="h-[110px] relative bg-gradient-to-br from-purple-600/80 via-violet-500/60 to-fuchsia-600/80 overflow-hidden">
-            <div class="absolute flex justify-center items-center top-2 left-2 gap-1 bg-primary rounded-2xl px-1.5 py-0.5">
-                <app-icon name="star" class="text-black"></app-icon>
-                <span class="text-xs font-semibold text-black capitalize">{{game().category}}</span>
-            </div>
-            <button class="absolute top-2 right-2 w-7 h-7 rounded-full bg-skin1/80 backdrop-blur-sm flex items-center justify-center transition-all hover:bg-background cursor-pointer z-10">
-                <app-icon name="heart" class="text-white/40"></app-icon>
-            </button>
-            
-            <!-- Hover Overlay -->
-            <div class="game-card-overlay absolute inset-0 bg-black/70 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center z-10">
-                <button class="play-button px-2 py-1 bg-secondary hover:bg-secondary/90 text-black text-xs font-bold rounded-lg transition-all duration-200 transform hover:scale-105 cursor-pointer">
-                    Play
-                </button>
-            </div>
-        </div>
-        <div class="p-2.5">
-            <h3 class="text-xs font-semibold text-foreground truncate">{{ game().name }}</h3>
-            <p class="text-[10px] text-white/50 truncate">{{game().provider}}</p>
-            <div class="flex items-center justify-between mt-1.5">
-                <span class="text-[10px] font-medium text-secondary">{{game().rtp}}</span>
-                <span class="text-[10px] text-white/50 capitalize">{{game().volatility}}</span>
-            </div>
-        </div>
+<div class="rounded-2xl overflow-hidden relative group cursor-pointer">
+    <img [src]="game()?.image" [alt]="game()?.name" class="w-full h-32 md:h-40 lg:h-48 object-cover transition-transform duration-300 group-hover:scale-110" />
+    <div class="absolute flex flex-col items-start p-2 justify-end w-full h-full bg-gradient-to-t from-black/80 via-black/50 to-transparent top-0 left-0 z-10">
+        <h3 class="text-md font-bold leading-5 mb-1">{{ game()?.name }}</h3>
+        <span class="text-xs text-white/60 capitalize">{{ game()?.sectionid }}</span>
+    </div>
+    <div class="absolute inset-0 bg-black/70 flex flex-col items-center justify-center gap-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20">
+        <button class="w-20 cursor-pointer flex items-center bg-primary text-black px-4 py-2 rounded-full">
+            <app-icon name="play" class="w-4 h-4 mr-1"></app-icon>
+            <span class="text-xs">Play</span>
+        </button>
+        <button class="w-20 cursor-pointer flex items-center bg-secondary text-black px-4 py-2 rounded-full">
+            <app-icon name="eye" class="w-4 h-4 mr-1"></app-icon>
+            <span class="text-xs">Demo</span>
+        </button>
     </div>
 </div>

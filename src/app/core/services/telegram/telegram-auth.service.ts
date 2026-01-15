@@ -10,6 +10,7 @@ import { TelegramWebApp, LoadUserRequest } from './telegram-webapp.model';
 @Injectable({ providedIn: 'root' })
 export class TelegramAuthService {
   private readonly http = inject(HttpClient);
+  private API_URL = environment.apiUrl;
   private readonly platformId = inject(PLATFORM_ID);
   private readonly isBrowser = isPlatformBrowser(this.platformId);
   
@@ -54,7 +55,7 @@ export class TelegramAuthService {
     };
     
     this.loadUserRequest$ = this.http.post<TelegramUser>(
-      `${environment.apiUrl}/user`,
+      `${this.API_URL}/user`,
       requestBody
     ).pipe(
       tap(response => this.user.set(response)),

@@ -25,10 +25,7 @@ export class Header {
 
   constructor() {
     effect(() => {
-      console.log('user:', this.user());
-      console.log('userBalance:', this.userBalance());
-      console.log('userAvatar:', this.userAvatar());
-      console.log('userName:', this.userName());
+     
     });
   }
 

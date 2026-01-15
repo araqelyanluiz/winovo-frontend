@@ -1,0 +1,25 @@
+<div class="w-full">
+  @if (items().length === 0) {
+    <div class="flex items-center justify-center h-64 text-white/50 text-sm">
+      No items available
+    </div>
+  } @else {
+    <div 
+      class="flex gap-3 md:gap-4 overflow-x-auto scrollbar-hide pb-2 cursor-grab active:cursor-grabbing select-none" 
+      style="-webkit-overflow-scrolling: touch; scroll-behavior: auto;"
+      (pointerdown)="onPointerDown($event)"
+      (pointermove)="onPointerMove($event)"
+      (pointerup)="onPointerUp($event)"
+      (pointercancel)="onPointerCancel()"
+      (touchstart)="onTouchStart($event)"
+      (touchmove)="onTouchMove($event)"
+      (touchend)="onTouchEnd($event)"
+    >
+      @for (item of items(); track trackBySlideId($index, item)) {
+        <div class="flex-[0_0_auto] w-[45%] min-[500px]:w-[30%] md:w-[23%] lg:w-[18%]">
+          <app-game-card [game]="item" />
+        </div>
+      }
+    </div>
+  }
+</div>
