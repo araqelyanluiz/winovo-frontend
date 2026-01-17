@@ -1,0 +1,91 @@
+@if (isOpen()) {
+    <div [class]="isFullscreen() ? 'fixed inset-0 z-[9999] bg-skin1/90 backdrop-blur-sm' : 'fixed max-w-3xl mx-auto inset-0 z-50 bg-skin1/90 backdrop-blur-sm'" >
+        <div class="flex items-center justify-between p-4">
+            <div class="flex justify-start items-center">
+                @if (isDemo()) {
+                    <div class="flex items-center gap-2 px-4 py-2 rounded-full bg-secondary/20 border border-secondary/50">
+                        <app-icon name="eye" class="w-4 h-4 text-secondary"></app-icon>
+                        <span class="text-sm font-semibold text-secondary">Demo Mode</span>
+                    </div>
+                } @else {
+                    <div class="flex items-center gap-2 px-4 py-2 rounded-full bg-primary/20 border border-primary/50">
+                        <app-icon name="play" class="w-4 h-4 text-primary"></app-icon>
+                        <span class="text-sm font-semibold text-primary">Real Play</span>
+                    </div>
+                }
+                <div class="flex flex-col ml-4">
+                    <h2>{{ game()?.name }}</h2>
+                    <span class="text-white/60 capitalize text-sm">{{ game()?.sectionid }} </span>
+                </div>
+            </div>
+           <div class="flex items-center justify-end gap-2.5">
+                <button class="flex items-center justify-center w-10 h-10 rounded-full bg-primary/5 border border-white/20 text-white hover:bg-card transition-colors cursor-pointer" (click)="toggleFullscreen()">
+                    <app-icon [name]="isFullscreen() ? 'minimize' : 'full-screen'" class="w-5 h-5"></app-icon>
+                </button>
+                <button class="flex items-center justify-center w-10 h-10 rounded-full bg-primary/5 border border-white/20 text-white hover:bg-card transition-colors cursor-pointer" (click)="handleClose()">
+                    <app-icon name="close" class="w-5 h-5"></app-icon>
+                </button>
+           </div>
+        </div>
+        <div class="max-h-[calc(100vh-155px)] h-full">
+            @if (isLoading()) {
+                <div class="flex flex-col items-center justify-center h-full text-center">
+                    <div class="relative mb-6">
+                        <div class="absolute inset-0 bg-gradient-to-br from-primary/30 to-secondary/30 rounded-3xl blur-2xl"></div>
+                        <div class="relative w-32 h-32 bg-gradient-to-br from-primary to-secondary rounded-3xl flex items-center justify-center">
+                            <app-icon name="gamepad" class="w-16 h-16 text-black"></app-icon>
+                        </div>
+                    </div>
+
+                    <h2 class="text-2xl font-bold text-white mb-2">
+                        Loading <span class="text-primary">{{ game()?.name }}</span>
+                    </h2>
+                    <p class="text-white/60 mb-8 capitalize">{{ game()?.sectionid }}</p>
+
+                    <div class="w-64 h-2 bg-white/10 rounded-full overflow-hidden mb-2">
+                        <div class="h-full bg-gradient-to-r from-primary to-secondary rounded-full transition-all duration-300"
+                            [style.width.%]="loadingProgress()"></div>
+                    </div>
+                    <p class="text-white/40 text-sm">{{ loadingProgress() }}%</p>
+
+                    <div class="flex gap-1 mt-4">
+                        <div class="w-2 h-2 bg-primary rounded-full animate-bounce" style="animation-delay: 0ms;"></div>
+                        <div class="w-2 h-2 bg-primary rounded-full animate-bounce" style="animation-delay: 150ms;"></div>
+                        <div class="w-2 h-2 bg-primary rounded-full animate-bounce" style="animation-delay: 300ms;"></div>
+                    </div>
+                </div>
+            } @else if (hasError()) {
+                <div class="flex flex-col items-center justify-center h-full text-center p-8">
+                    <div class="relative mb-6">
+                        <div class="w-32 h-32 bg-gradient-to-br from-primary to-secondary rounded-3xl flex items-center justify-center">
+                            <app-icon name="gamepad" class="w-16 h-16 text-black"></app-icon>
+                        </div>
+                    </div>
+
+                    <h2 class="text-2xl font-bold text-white mb-2">{{ game()?.name }}</h2>
+                    <p class="text-white/60 mb-6 capitalize">{{ game()?.sectionid }}</p>
+
+                    <div class="flex items-center gap-4 mb-8">
+                        <span class="text-primary font-bold">96.5% RTP</span>
+                        <span class="text-white/60">High Volatility</span>
+                    </div>
+
+                    <p class="text-white/60 mb-6">Game iframe would load here</p>
+
+                    <button (click)="reload()" class="flex items-center gap-2 px-6 py-3 bg-primary/20 hover:bg-primary/30 rounded-full transition-colors cursor-pointer">
+                        <app-icon name="reload" class="w-5 h-5 text-primary"></app-icon>
+                        <span class="font-semibold text-primary">Reload</span>
+                    </button>
+                </div>
+            } @else if (gameUrl()) {
+                <iframe
+                    [src]="gameUrl()!"
+                    class="w-full h-full rounded-2xl bg-black"
+                    frameborder="0"
+                    allowfullscreen
+                    allow="autoplay; fullscreen; payment">
+                </iframe>
+            }
+        </div>
+    </div>
+}

@@ -3,7 +3,7 @@ import { inject, Injectable, signal } from "@angular/core";
 import { Observable, map, shareReplay, tap } from "rxjs";
 import { environment } from "../../../../environments/environment";
 import { Game, Provider } from "./game.model";
-import { GameListResponse, ProviderListResponse, GameInitRequest, GameInitResponse } from "./game-response.model";
+import { GameListResponse, ProviderListResponse, GameInitRequest, GameInitResponse, GameInitData } from "./game-response.model";
 import { TelegramAuthService } from "../telegram/telegram-auth.service";
 import { LocalizationService } from "../localization/localization.service";
 
@@ -65,19 +65,44 @@ export class GameService {
         return this.providers$;
     }
 
-    gameInit(gameId: string): Observable<GameInitResponse> {
+    gameInit(gameId: string): Observable<GameInitData> {
         const user = this.telegramAuthService.user();
         const defaultBalance = user?.balances?.find(b => b.default);
         
         const requestBody: GameInitRequest = {
-            PlayerId: user?.telegram_id?.toString() ?? '0',
+            PlayerId: user?.telegram_id?.toString() ,
             BankGroupId: this.projectKey,
-            Nick: user?.username ?? user?.first_name ?? 'Player',
+            Nick: user?.username ?? user?.first_name ,
             GameId: gameId,
-            Currency: defaultBalance?.currency ?? 'USD',
+            Currency: defaultBalance?.currency,
             Lang: this.localizationService.getCurrentLanguageCode()
         };
 
-        return this.http.post<GameInitResponse>(`${this.API_URL}/session/launch`, requestBody);
+        return this.http.post<GameInitResponse>(`${this.API_URL}/session/launch`, requestBody).pipe(
+            map(response => response.result)
+        );
+    }
+
+    demoInit(gameId: string): Observable<GameInitData> {
+        const requestBody: GameInitRequest = {
+            BankGroupId: this.projectKey,
+            GameId: gameId,
+        };
+
+        return this.http.post<GameInitResponse>(`${this.API_URL}/session/demo`, requestBody).pipe(
+            map(response => response.result)
+        );
+    }
+
+    closeSeession(SessionId: string): Observable<GameInitData> {
+        const requestBody = {
+            "sessionId": SessionId
+        }
+       return this.http.post<GameInitResponse>(`${this.API_URL}/session/close`, requestBody).pipe(
+            map(response => {
+                return response.result;
+            })
+            
+        );
     }
 }

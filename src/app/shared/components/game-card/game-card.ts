@@ -1,39 +1,42 @@
-import { Component, input, inject } from '@angular/core';
+import { Component, input, signal } from '@angular/core';
 import { Game } from '../../../core/services/game/game.model';
 import { Icon } from '../icon/icon';
-import { GameService } from '../../../core/services/game/game.service';
+import { GameLaunchDialog } from '../game-launch-dialog/game-launch-dialog';
 
 @Component({
   selector: 'app-game-card',
-  imports: [Icon],
+  imports: [Icon, GameLaunchDialog],
   templateUrl: './game-card.html',
   styleUrl: './game-card.css',
 })
 export class GameCard {
-  private readonly gameService = inject(GameService);
-  
   game = input<Game>();
+  
+  protected readonly isDialogOpen = signal<boolean>(false);
+  protected readonly selectedGame = signal<Game | null>(null);
+  protected readonly isDemoMode = signal<boolean>(false);
 
   initGame(): void {
     const currentGame = this.game();
     if (!currentGame) return;
-
-    this.gameService.gameInit(currentGame.id).subscribe({
-      next: (response) => {
-        if (response) {    
-          console.log(response)
-          // window.open(response.launchUrl, '_blank');
-        } else {
-          console.error('Invalid launch URL');
-        } 
-      },
-      error: (error) => {
-        console.error('Error launching game:', error);
-      },
-    });
+    
+    this.isDemoMode.set(false);
+    this.selectedGame.set(currentGame);
+    this.isDialogOpen.set(true);
   }
 
   initDemo(): void {
-    alert('Launching demo...');
+    const currentGame = this.game();
+    if (!currentGame) return;
+    
+    this.isDemoMode.set(true);
+    this.selectedGame.set(currentGame);
+    this.isDialogOpen.set(true);
+  }
+
+  closeDialog(): void {
+    this.isDialogOpen.set(false);
+    this.selectedGame.set(null);
+    this.isDemoMode.set(false);
   }
 }

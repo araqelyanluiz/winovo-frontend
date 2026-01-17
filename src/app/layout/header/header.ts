@@ -23,10 +23,10 @@ export class Header {
     return this.user()?.balances?.find(b => b.default);
   });
   
-  protected readonly userBalance = computed(() => this.defaultBalance()?.balance ?? 0);
-  protected readonly userBalanceCurrency = computed(() => this.defaultBalance()?.currency ?? 'USD');
+  protected readonly userBalance = computed(() => this.defaultBalance()?.balance);
+  protected readonly userBalanceCurrency = computed(() => this.defaultBalance()?.currency);
   protected readonly userAvatar = computed(() => this.user()?.profile_pic ?? 'assets/images/default-avatar.png');
-  protected readonly userName = computed(() => this.user()?.first_name ?? 'User');
+  protected readonly userName = computed(() => this.user()?.first_name);
 
   constructor() {
     effect(() => {

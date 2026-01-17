@@ -7,16 +7,21 @@ export interface ProviderListResponse {
 }
 
 export interface GameInitRequest {
-  PlayerId: string;
+  PlayerId?: string;
   BankGroupId: string;
-  Nick: string;
+  Nick?: string;
   GameId: string;
-  Currency: string;
-  Lang: string;
+  Currency?: string;
+  Lang?: string;
+}
+
+export interface GameInitData {
+  SessionUrl: string;
+  SessionId: string;
 }
 
 export interface GameInitResponse {
-  launchUrl: string;
+  result: GameInitData;
 }
 
 import { Game, Provider } from './game.model';
