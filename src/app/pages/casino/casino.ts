@@ -3,10 +3,11 @@ import { Game, Provider } from '../../core/services/game/game.model';
 import { GameService } from '../../core/services/game/game.service';
 import { Icon } from "../../shared/components/icon/icon";
 import { GameCard } from "../../shared/components/game-card/game-card";
+import { Loader } from "../../shared/components/loader/loader";
 
 @Component({
   selector: 'app-casino',
-  imports: [Icon, GameCard],
+  imports: [Icon, GameCard, Loader],
   templateUrl: './casino.html',
   styleUrl: './casino.css',
 })
@@ -17,6 +18,7 @@ export class Casino implements OnInit {
   protected readonly providers = signal<Provider[]>([]);
   protected readonly selectedProvider = signal<string>('All');
   protected readonly filteredGames = signal<Game[]>([]);
+  protected readonly isLoading = signal<boolean>(true);
 
   ngOnInit(): void {
     this.getGames();
@@ -24,13 +26,29 @@ export class Casino implements OnInit {
   }
 
   private getGames(): void {
+    this.isLoading.set(true);
+    const startTime = Date.now();
+    const minLoadingTime = 300;
+    
     this.gameService.getGames().subscribe({
       next: (games) => {
-        this.games.set(games);
-        this.filteredGames.set(games);
+        const elapsed = Date.now() - startTime;
+        const remainingTime = Math.max(0, minLoadingTime - elapsed);
+        
+        setTimeout(() => {
+          this.games.set(games);
+          this.filteredGames.set(games);
+          this.isLoading.set(false);
+        }, remainingTime);
       },
       error: (error) => {
         console.error('Error fetching games:', error);
+        const elapsed = Date.now() - startTime;
+        const remainingTime = Math.max(0, minLoadingTime - elapsed);
+        
+        setTimeout(() => {
+          this.isLoading.set(false);
+        }, remainingTime);
       },
     });
   }
