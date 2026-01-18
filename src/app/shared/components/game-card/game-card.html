@@ -1,10 +1,10 @@
-<div class="rounded-2xl overflow-hidden relative group cursor-pointer">
-    <img [src]="game()?.image" [alt]="game()?.name" class="w-full h-32 md:h-40 lg:h-48 object-cover transition-transform duration-300 group-hover:scale-110" />
+<div class="rounded-2xl overflow-hidden relative group cursor-pointer" (mouseenter)="onMouseEnter()" (mouseleave)="onMouseLeave()" (click)="onCardTouch()">
+    <img [src]="game()?.image" [alt]="game()?.name" class="w-full h-40 md:h-48 object-cover transition-transform duration-300" [class.scale-110]="showButtons()" />
     <div class="absolute flex flex-col items-start p-2 justify-end w-full h-full bg-gradient-to-t from-black/80 via-black/50 to-transparent top-0 left-0 z-10 pointer-events-none">
         <h3 class="text-sm md:text-md font-bold leading-5 mb-1">{{ game()?.name }}</h3>
         <span class="text-xs text-white/60 capitalize">{{ game()?.sectionid }}</span>
     </div>
-    <div class="absolute inset-0 bg-black/70 flex flex-col items-center justify-center gap-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20 pointer-events-none group-hover:pointer-events-auto">
+    <div class="absolute inset-0 bg-black/70 flex flex-col items-center justify-center gap-3 transition-opacity duration-300 z-20" [class.opacity-0]="!showButtons()" [class.opacity-100]="showButtons()" [class.pointer-events-none]="!showButtons()" [class.pointer-events-auto]="showButtons()">
         <button class="w-20 cursor-pointer flex items-center bg-primary text-black px-4 py-2 rounded-full" (click)="initGame()">
             <app-icon name="play" class="w-4 h-4 mr-1"></app-icon>
             <span class="text-xs">Play</span>
@@ -15,10 +15,3 @@
         </button>
     </div>
 </div>
-
-<app-game-launch-dialog 
-    [isOpen]="isDialogOpen()" 
-    [game]="selectedGame()"
-    [isDemo]="isDemoMode()"
-    (close)="closeDialog()">
-</app-game-launch-dialog>

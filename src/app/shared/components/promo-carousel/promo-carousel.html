@@ -16,6 +16,7 @@
         (pointermove)="onPointerMove($event)"
         (pointerup)="onPointerUp($event)"
         (pointercancel)="onPointerCancel()"
+        (scroll)="onScroll()"
         (mouseenter)="onMouseEnter()"
         (mouseleave)="onMouseLeave()"
       >
@@ -27,7 +28,7 @@
           >
             <!-- Card -->
             <div
-              class="relative rounded-xl md:rounded-2xl overflow-hidden transition-transform duration-300 hover:scale-[1.02] shadow-2xl h-[140px] min-md:h-[180px]"
+              class="relative rounded-xl md:rounded-2xl overflow-hidden transition-transform duration-300 hover:scale-[1.02] shadow-2xl h-[180px] min-md:h-[200px]"
             >
               <!-- Background gradient -->
               <div class="absolute inset-0" [class]="getGradientClasses(slide.theme)"></div>

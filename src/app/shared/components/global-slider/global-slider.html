@@ -6,7 +6,7 @@
   } @else {
     <div 
       class="flex gap-3 md:gap-4 overflow-x-auto scrollbar-hide pb-2 cursor-grab active:cursor-grabbing select-none" 
-      style="-webkit-overflow-scrolling: touch; scroll-behavior: auto;"
+      style="-webkit-overflow-scrolling: touch; scroll-behavior: auto; position: static; isolation: auto; transform: none; -webkit-transform: none;"
       (pointerdown)="onPointerDown($event)"
       (pointermove)="onPointerMove($event)"
       (pointerup)="onPointerUp($event)"

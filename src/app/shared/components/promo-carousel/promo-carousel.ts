@@ -42,6 +42,7 @@ export class PromoCarousel {
   private dragThreshold = 40;
 
   private autoplayTimer?: ReturnType<typeof setInterval>;
+  private scrollTimeout?: ReturnType<typeof setTimeout>;
 
   constructor() {
     if (this.isBrowser) {
@@ -195,6 +196,53 @@ export class PromoCarousel {
     if (!this.isBrowser) return;
     this.isDragging.set(false);
     this.scrollToCurrentSlide(true);
+  }
+
+  onScroll(): void {
+    if (!this.isBrowser || !this.trackRef) return;
+
+    // Clear any existing timeout
+    if (this.scrollTimeout) {
+      clearTimeout(this.scrollTimeout);
+    }
+
+    // Use requestAnimationFrame for smooth updates during scroll
+    requestAnimationFrame(() => {
+      this.updateCurrentIndexFromScroll();
+    });
+  }
+
+  private updateCurrentIndexFromScroll(): void {
+    if (!this.trackRef) return;
+
+    const track = this.trackRef.nativeElement;
+    const slides = Array.from(track.children) as HTMLElement[];
+    
+    if (slides.length === 0) return;
+
+    // Find the slide closest to the center of the viewport
+    const trackRect = track.getBoundingClientRect();
+    const trackCenter = trackRect.left + trackRect.width / 2;
+
+    let closestIndex = 0;
+    let closestDistance = Infinity;
+
+    slides.forEach((slide, index) => {
+      const slideRect = slide.getBoundingClientRect();
+      const slideCenter = slideRect.left + slideRect.width / 2;
+      const distance = Math.abs(trackCenter - slideCenter);
+
+      if (distance < closestDistance) {
+        closestDistance = distance;
+        closestIndex = index;
+      }
+    });
+
+    // Only update if the index has changed
+    if (closestIndex !== this.currentIndex()) {
+      this.currentIndex.set(closestIndex);
+      this.resetAutoplay();
+    }
   }
 
   // Mouse hover handlers

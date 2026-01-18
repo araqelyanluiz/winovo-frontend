@@ -1,11 +1,7 @@
-export type TelegramUserBalances = {
-  currency: string;
-  balance: number;
-  default: boolean;
-};
 
 export interface TelegramUser {
-  balances: TelegramUserBalances[];
+  balance:number;
+  projectCurrency: string;
   created_at: string;
   first_name: string;
   last_name: string;

@@ -1,4 +1,5 @@
-import { Component, input, output, signal, effect, inject } from '@angular/core';
+import { Component, input, output, signal, effect, inject, ViewEncapsulation, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { Game } from '../../../core/services/game/game.model';
 import { Icon } from '../icon/icon';
 import { GameService } from '../../../core/services/game/game.service';
@@ -9,10 +10,13 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
     imports: [Icon],
     templateUrl: './game-launch-dialog.html',
     styleUrl: './game-launch-dialog.css',
+    encapsulation: ViewEncapsulation.None,
 })
 export class GameLaunchDialog {
     private readonly gameService = inject(GameService);
     private readonly sanitizer = inject(DomSanitizer);
+    private readonly platformId = inject(PLATFORM_ID);
+    private readonly isBrowser = isPlatformBrowser(this.platformId);
 
     isOpen = input<boolean>(false);
     game = input<Game | null>(null);
@@ -25,10 +29,25 @@ export class GameLaunchDialog {
     protected readonly hasError = signal<boolean>(false);
     protected readonly sessionId = signal<string>('');
     protected readonly isFullscreen = signal<boolean>(false); 
+    
     constructor() {
         effect(() => {
             if (this.isOpen() && this.game()) {
                 this.initializeGame();
+            }
+        });
+
+        effect(() => {
+            if (this.isBrowser) {
+                if (this.isOpen()) {
+                    document.body.style.overflow = 'hidden';
+                    document.body.style.position = 'fixed';
+                    document.body.style.width = '100%';
+                } else {
+                    document.body.style.overflow = '';
+                    document.body.style.position = '';
+                    document.body.style.width = '';
+                }
             }
         });
     }
@@ -87,6 +106,7 @@ export class GameLaunchDialog {
                 }
             });
         }
+        this.isFullscreen.set(false);
         this.close.emit();
     }
 

@@ -67,14 +67,13 @@ export class GameService {
 
     gameInit(gameId: string): Observable<GameInitData> {
         const user = this.telegramAuthService.user();
-        const defaultBalance = user?.balances?.find(b => b.default);
         
         const requestBody: GameInitRequest = {
             PlayerId: user?.telegram_id?.toString() ,
             BankGroupId: this.projectKey,
             Nick: user?.username ?? user?.first_name ,
             GameId: gameId,
-            Currency: defaultBalance?.currency,
+            Currency: user?.projectCurrency,
             Lang: this.localizationService.getCurrentLanguageCode()
         };
 
