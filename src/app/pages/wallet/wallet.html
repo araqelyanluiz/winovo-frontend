@@ -1,56 +1,28 @@
-<div class="wallet-container">
-  <!-- Header -->
-  <div class="wallet-header">
-    <h1 class="wallet-title">Wallet</h1>
-    <p class="wallet-total">Total: ${{ totalBalance().toLocaleString('en-US', {minimumFractionDigits: 1, maximumFractionDigits: 1}) }}</p>
-  </div>
-
-  <!-- Action Buttons -->
-  <div class="wallet-actions">
-    @for (action of actions; track action.id) {
-      <button 
-        class="action-card"
-        [class]="'action-card-' + action.color"
-        (click)="onActionClick(action.id)">
-        <div>
-          <app-icon [name]="action.icon" />
-        </div>
-        <span class="action-label">{{ action.label }}</span>
-      </button>
-    }
-  </div>
-
-  <!-- Balances Section -->
-  <div class="balances-section">
-    <h2 class="balances-title">Your Balances</h2>
-    
-    <div class="balances-list">
-      @for (balance of balances(); track balance.id) {
-        <div class="balance-card">
-          <div class="balance-header">
-            <div class="balance-info">
-              <div class="balance-icon-wrapper">
-                <div class="balance-icon" [class]="balance.iconBg">
-                  <span class="balance-symbol">{{ balance.symbol.charAt(0) }}</span>
-                </div>
-              </div>
-              <div class="balance-name-wrapper">
-                <h3 class="balance-name">{{ balance.name }}</h3>
-                <p class="balance-symbol-text">{{ balance.symbol }}</p>
-              </div>
-            </div>
-            <div class="balance-change" [class.positive]="balance.changePercent > 0" [class.negative]="balance.changePercent < 0">
-              <span class="change-icon">{{ balance.changePercent > 0 ? '↗' : '↘' }}</span>
-              <span>{{ balance.changePercent > 0 ? '+' : '' }}{{ balance.changePercent }}%</span>
-            </div>
-          </div>
-          
-          <div class="balance-amount-wrapper">
-            <p class="balance-amount">{{ balance.amount.toLocaleString('en-US', {minimumFractionDigits: balance.id === 'btc' ? 4 : 2, maximumFractionDigits: balance.id === 'btc' ? 4 : 2}) }}</p>
-            <p class="balance-usd">≈ ${{ balance.usdValue.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}</p>
-          </div>
-        </div>
-      }
+<div class="wallet-page">
+  <div class="px-4 py-6">
+    <div class="text-center">
+      <p class="text-sm text-white/40 mb-1">Total Balance</p>
+      <h1 class="text-3xl font-display font-bold text-white/40"><span class=" bg-gradient-to-r from-primary primary to-secondary
+           bg-clip-text text-transparent">{{ userBalanceCurrency() }} {{ userBalance() }} </span></h1>
     </div>
+  </div>
+  <div class="px-4 space-y-5">
+    <div class="grid grid-cols-3 gap-3">
+      <button routerLink="deposit" class="flex flex-col items-center gap-2.5 p-4 bg-gradient-to-br from-success/10 to-success/5 rounded-2xl border border-success/20 hover:shadow-lg shadow-success/15 hover:border-success/40 transition-all duration-300 ease-out group cursor-pointer">
+        <app-icon name="deposit" class="group-hover:scale-110 transition-transform duration-200"></app-icon>
+        <span class="text-xs text-white">Deposit</span>
+      </button>
+      <button routerLink="withdraw" class="flex flex-col items-center gap-2.5 p-4 bg-gradient-to-br from-warning/10 to-warning/5 rounded-2xl border border-warning/20 hover:shadow-lg shadow-warning/15 hover:border-warning/40 transition-all duration-300 ease-out group cursor-pointer">
+        <app-icon name="withdraw" class="group-hover:scale-110 transition-transform duration-200"></app-icon>
+        <span class="text-xs text-white">Withdraw</span>
+      </button>
+      <button routerLink="history" class="flex flex-col items-center gap-2.5 p-4 bg-gradient-to-br from-primary/10 to-primary/5 rounded-2xl border border-primary/20 hover:shadow-lg shadow-primary/15 hover:border-primary/40 transition-all duration-300 ease-out group cursor-pointer">
+        <app-icon name="history" class="group-hover:scale-110 transition-transform duration-200"></app-icon>
+        <span class="text-xs text-white">History</span>
+      </button>
+    </div>
+  </div>
+  <div class="p-4 space-y-5">
+    <router-outlet></router-outlet>
   </div>
 </div>

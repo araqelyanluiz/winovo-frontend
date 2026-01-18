@@ -3,4 +3,8 @@ export const environment = {
   apiUrl: 'https://api.winovo.bet/api',
   configUrl: '',
   projectKey:'WINOVO_BET_ETB',
+  testUser: {
+    telegramId: 798788716,
+    username: 'vahag_t'
+  }
 };

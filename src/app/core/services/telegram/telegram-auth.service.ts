@@ -27,47 +27,56 @@ export class TelegramAuthService {
   initialize(): Promise<boolean> {
     console.log('TelegramAuth: initialize() called');
     
-    if (this.webApp || !this.isBrowser) {
-      console.log('TelegramAuth: already initialized or not browser', { hasWebApp: !!this.webApp, isBrowser: this.isBrowser });
-      return Promise.resolve(!!this.webApp && !!this.user());
+    if (!this.isBrowser) {
+      console.log('TelegramAuth: not browser platform');
+      return Promise.resolve(false);
+    }
+
+    if (this.user()) {
+      console.log('TelegramAuth: user already loaded');
+      return Promise.resolve(true);
     }
 
     const telegramWebApp = window?.Telegram?.WebApp;
     console.log('TelegramAuth: Telegram WebApp available:', !!telegramWebApp);
     
-    if (telegramWebApp) {
+    if (telegramWebApp && !this.webApp) {
       this.webApp = telegramWebApp;
       this.webApp.ready();
       this.webApp.expand();
-      
-      const webAppUser = this.webApp?.initDataUnsafe?.user;
-      console.log('TelegramAuth: WebApp User:', webAppUser);
-      
-      if (webAppUser?.id) {
-        return new Promise((resolve) => {
-          console.log('TelegramAuth: Waiting 2 seconds before loading user...');
-          setTimeout(() => {
-            console.log('TelegramAuth: Loading user from backend...');
-            this.loadUserFromBackend(webAppUser.id, webAppUser.username).subscribe({
-              next: (success) => {
-                console.log('TelegramAuth: User loaded from backend:', success, 'User:', this.user());
-                resolve(success && !!this.user());
-              },
-              error: (err) => {
-                console.error('TelegramAuth: Error loading user from backend:', err);
-                resolve(false);
-              }
-            });
-          }, 2000);
-        });
-      } else {
-        console.warn('TelegramAuth: No user ID found in initDataUnsafe');
-      }
-    } else {
-      console.warn('TelegramAuth: Telegram WebApp not available');
     }
     
-    return Promise.resolve(false);
+    const webAppUser = this.webApp?.initDataUnsafe?.user;
+    console.log('TelegramAuth: WebApp User:', webAppUser);
+    
+    let telegramId: number | undefined;
+    let username: string | undefined;
+
+    if (webAppUser?.id) {
+      telegramId = webAppUser.id;
+      username = webAppUser.username;
+      console.log('TelegramAuth: Using Telegram WebApp user');
+    } else if (environment.testUser) {
+      telegramId = environment.testUser.telegramId;
+      username = environment.testUser.username;
+      console.log('TelegramAuth: Using test user in development mode');
+    } else {
+      console.warn('TelegramAuth: No user ID available');
+      return Promise.resolve(false);
+    }
+
+    return new Promise((resolve) => {
+      console.log('TelegramAuth: Loading user from backend...');
+      this.loadUserFromBackend(telegramId, username).subscribe({
+        next: (success) => {
+          resolve(success && !!this.user());
+        },
+        error: (err) => {
+          console.error('TelegramAuth: Error loading user from backend:', err);
+          resolve(false);
+        }
+      });
+    });
   }
 
   loadUserFromBackend(telegramId?: number, username?: string): Observable<boolean> {

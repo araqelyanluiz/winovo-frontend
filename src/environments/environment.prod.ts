@@ -1,5 +1,7 @@
 export const environment = {
   production: true,
-  apiUrl: '', // Замените на ваш production API URL
-  configUrl: ''
+  apiUrl: 'https://api.winovo.bet/api',
+  configUrl: '',
+  projectKey:'WINOVO_BET_ETB',
+  testUser: null
 };

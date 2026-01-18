@@ -1,44 +1,23 @@
-import { Component, signal } from '@angular/core';
+import { Component, computed, effect, inject, signal } from '@angular/core';
+import { TelegramAuthService } from '../../core/services/telegram/telegram-auth.service';
+import { RouterModule } from "@angular/router";
 import { Icon } from '../../shared/components/icon/icon';
-import { WalletAction, Balance } from './models/wallet.model';
 
 @Component({
   selector: 'app-wallet',
-  imports: [Icon],
+  imports: [RouterModule,Icon],
   templateUrl: './wallet.html',
   styleUrl: './wallet.css',
 })
 export class Wallet {
-  totalBalance = signal<number>(10980.5);
+  private readonly telegramAuthService = inject(TelegramAuthService);
+  protected readonly user = this.telegramAuthService.user;
+  protected readonly userBalance = computed(() => this.user()?.balance ?? 0);
+  protected readonly userBalanceCurrency = computed(() => this.user()?.projectCurrency ?? 'USD');
 
-  actions: WalletAction[] = [
-    { id: 'deposit', label: 'Deposit', icon: 'deposit', color: 'green' },
-    { id: 'withdraw', label: 'Withdraw', icon: 'withdraw', color: 'yellow' },
-    { id: 'history', label: 'History', icon: 'history', color: 'purple' }
-  ];
-
-  balances = signal<Balance[]>([
-    {
-      id: 'usdt',
-      name: 'USDT',
-      symbol: 'USDT',
-      amount: 1250.00,
-      usdValue: 1250.00,
-      changePercent: -1.72,
-      iconBg: 'bg-emerald-500'
-    },
-    {
-      id: 'btc',
-      name: 'BTC',
-      symbol: 'BTC',
-      amount: 0.0234,
-      usdValue: 2457.00,
-      changePercent: 0.20,
-      iconBg: 'bg-orange-500'
-    }
-  ]);
-
-  onActionClick(actionId: string): void {
-    console.log('Action clicked:', actionId);
+  constructor() {
+    effect(() => {
+     
+    });
   }
 }
