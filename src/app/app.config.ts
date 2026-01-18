@@ -40,14 +40,10 @@ function initializeApp(
     iconInitService.initialize();
     
     telegramAuthService.initialize();
-    telegramAuthService.loadUserFromBackend(798788716, 'vahag_t').subscribe({
-      next: (success) => {
-        if (!success || !telegramAuthService.user()) {
-          router.navigate(['/404']);
-        }
-      },
-      error: () => router.navigate(['/404'])
-    });
+    
+    if (!telegramAuthService.user()) {
+      router.navigate(['/404']);
+    }
   });
 }
 
