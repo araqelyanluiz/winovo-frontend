@@ -5,11 +5,11 @@
         <span class="text-xs text-white/60 capitalize">{{ game()?.sectionid }}</span>
     </div>
     <div class="absolute inset-0 bg-black/70 flex flex-col items-center justify-center gap-3 transition-opacity duration-300 z-20" [class.opacity-0]="!showButtons()" [class.opacity-100]="showButtons()" [class.pointer-events-none]="!showButtons()" [class.pointer-events-auto]="showButtons()">
-        <button class="w-20 cursor-pointer flex items-center bg-primary text-black px-4 py-2 rounded-full" (click)="initGame()">
+        <button class="w-20 cursor-pointer flex items-center bg-primary text-black px-4 py-2 rounded-full" (click)="initGame(); $event.stopPropagation()">
             <app-icon name="play" class="w-4 h-4 mr-1"></app-icon>
             <span class="text-xs">Play</span>
         </button>
-        <button class="w-20 cursor-pointer flex items-center bg-secondary text-black px-4 py-2 rounded-full" (click)="initDemo()">
+        <button class="w-20 cursor-pointer flex items-center bg-secondary text-black px-4 py-2 rounded-full" (click)="initDemo(); $event.stopPropagation()">
             <app-icon name="eye" class="w-4 h-4 mr-1"></app-icon>
             <span class="text-xs">Demo</span>
         </button>

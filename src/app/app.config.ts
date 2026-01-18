@@ -31,7 +31,7 @@ function initializeApp(
   meta: Meta,
   router: Router
 ) {
-  return () => firstValueFrom(configService.loadConfig()).then(config => {
+  return () => firstValueFrom(configService.loadConfig()).then(async config => {
     title.setTitle(config.seo.title);
     meta.updateTag({ name: 'description', content: config.seo.description });
     meta.updateTag({ name: 'keywords', content: config.seo.keywords.join(', ') });
@@ -39,9 +39,8 @@ function initializeApp(
     localizationService.initialize();
     iconInitService.initialize();
     
-    telegramAuthService.initialize();
-    
-    if (!telegramAuthService.user()) {
+    const isTelegramInitialized = await telegramAuthService.initialize();
+    if (!isTelegramInitialized) {
       router.navigate(['/404']);
     }
   });
