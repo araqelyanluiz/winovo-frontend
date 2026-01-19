@@ -1,1 +1,67 @@
-<p>withdraw works!</p>
+<div class="space-y-4">
+  <div class="flex items-center gap-3">
+    <h2 class="text-sm font-semibold text-white">Withdraw</h2>
+  </div>
+  <div class="space-y-3">
+    <app-search-select
+      [options]="availableCurrencies"
+      [placeholder]="'Search currency...'"
+      (optionSelected)="onCurrencySelected($event)"
+    />
+  </div>
+  <form [formGroup]="withdrawForm" class="space-y-4">
+    <div class="p-4 bg-primary/10 rounded-xl border border-primary/10 space-y-4">
+      <div>
+          <label class="text-xs text-white/60 mb-2 block">Amount to withdraw</label>
+          <div class="relative">
+          <input
+              type="text"
+              formControlName="amount"
+              (input)="onAmountInput($event)"
+              [class.border-red-500]="withdrawForm.get('amount')?.invalid && withdrawForm.get('amount')?.touched"
+              class="no-spinner flex w-full rounded-lg border-input bg-skin1 px-4 py-3 pr-20 text-white placeholder-white/40 border border-primary/40 focus:border-primary/20 outline-none transition-colors"
+              placeholder="Enter amount to withdraw"
+          />
+          <span class="absolute right-4 top-1/2 -translate-y-1/2 text-sm font-medium text-white/40">{{ currency() }}</span>
+          </div>
+          @if (errorMessage()) {
+          <p class="text-xs text-red-500 mt-2">{{ errorMessage() }}</p>
+          } @else {
+          <p class="text-xs text-white/40 mt-2">Min: {{ minWithdrawAmount() }} {{ currency() }} | Max: {{ maxWithdrawAmount() }} {{ currency() }}</p>
+          }
+      </div>
+      <div>
+          <label class="text-xs text-white/60 mb-2 block">Wallet Address (TRC20)</label>
+          <div class="relative">
+          <input
+              type="text"
+              formControlName="walletAddress"
+              [class.border-red-500]="withdrawForm.get('walletAddress')?.invalid && withdrawForm.get('walletAddress')?.touched"
+              class="no-spinner flex w-full rounded-lg border-input bg-skin1 px-4 py-3 pr-20 text-white placeholder-white/40 border border-primary/40 focus:border-primary/20 outline-none transition-colors"
+              placeholder="Enter your {{ currency() }} wallet address"
+          />
+          </div>
+          @if (withdrawForm.get('walletAddress')?.invalid && withdrawForm.get('walletAddress')?.touched) {
+            <p class="text-xs text-red-500 mt-2">Wallet address is required</p>
+          }
+      </div>
+    </div>
+    
+    <div class="p-4 bg-primary/10 rounded-xl border border-primary/10 space-y-4">
+      <div class="w-16 h-16 mx-auto rounded-2xl bg-gradient-to-br from-warning/20 to-warning/10 flex items-center justify-center">
+        <app-icon name="wallet-base" class="w-7 h-7 text-warning"></app-icon>
+      </div>
+      <div class="text-center">
+        <p class="text-sm font-medium text-foreground mb-1">Withdraw {{currency()}}</p>
+        <p class="text-xs text-white/40">Enter amount and wallet address to withdraw</p>
+      </div>
+      <button
+        type="button"
+        [disabled]="isButtonDisabled()"
+        class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary hover:bg-primary/90 px-4 py-2 w-full bg-gradient-to-r from-warning to-warning/80 hover:from-warning/90 hover:to-warning/70 text-warning-foreground font-semibold rounded-xl h-12 cursor-pointer"
+      >
+        Withdraw
+      </button>
+    </div>
+  </form>
+</div>
