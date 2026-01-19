@@ -7,20 +7,21 @@ import {
   ElementRef,
   viewChild,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { Game } from '../../../core/services/game/game.model';
 import { GameCard } from '../game-card/game-card';
+import { Loader } from '../loader/loader';
 
 @Component({
   selector: 'app-global-slider',
   standalone: true,
-  imports: [CommonModule, GameCard],
+  imports: [GameCard, Loader],
   templateUrl: './global-slider.html',
   styleUrl: './global-slider.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GlobalSlider {
   items = input<Game[]>([]);
+  isLoading = input<boolean>(false);
   
   itemClick = output<Game>();
 

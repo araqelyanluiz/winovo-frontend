@@ -1,16 +1,19 @@
-import { Component, input, output, signal, computed, HostListener } from '@angular/core';
+import { Component, input, output, signal, computed, HostListener, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SearchSelectOption } from './models/search-select.model';
 import { Icon } from '../icon/icon';
+import { CurrencyConverter } from '../../../core/services/payment/currency-converter.service';
 
 @Component({
   selector: 'app-search-select',
-  imports: [CommonModule, FormsModule,Icon],
+  imports: [CommonModule, FormsModule, Icon],
   templateUrl: './serach-select.html',
   styleUrl: './serach-select.css',
 })
 export class SerachSelect {
+  protected readonly currencyConverter = inject(CurrencyConverter);
+  
   options = input.required<SearchSelectOption[]>();
   placeholder = input<string>('Search currency...');
   selectedOption = input<SearchSelectOption | null>(null);
@@ -30,6 +33,23 @@ export class SerachSelect {
   });
   
   selectedValue = signal<SearchSelectOption | null>(null);
+  
+  protected userCurrency = computed(() => {
+    return this.currencyConverter['baseCurrency']?.() || 'USD';
+  });
+  
+  protected conversionRates = computed(() => {
+    const baseCurr = this.currencyConverter['baseCurrency']?.() || 'USD';
+    const rates = new Map<string, number>();
+    
+    this.options().forEach(option => {
+      if (!option.value) return;
+      const rateToUserCurrency = this.currencyConverter.convert(1, baseCurr, option.value);
+      rates.set(option.value, rateToUserCurrency === 0 ? 0 : 1 / rateToUserCurrency);
+    });
+    
+    return rates;
+  });
   
   ngOnInit() {
     if (this.selectedOption()) {
@@ -53,6 +73,10 @@ export class SerachSelect {
     this.optionSelected.emit(option);
     this.isOpen.set(false);
     this.searchQuery.set('');
+  }
+  
+  getConversionRate(cryptoCurrency: string): number {
+    return this.conversionRates().get(cryptoCurrency) ?? 0;
   }
   
   @HostListener('document:click', ['$event'])

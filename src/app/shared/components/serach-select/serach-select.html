@@ -31,7 +31,7 @@
   </button>
 
   @if (isOpen()) {
-    <div class="absolute top-full left-0 right-0 mt-2 bg-skin1 rounded-xl border border-primary/10 shadow-xl z-50 overflow-hidden">
+    <div class="absolute top-full left-0 right-0 mt-2 bg-skin1 rounded-xl border border-primary/10 shadow-lg shadow-skin1 z-50 overflow-hidden">
       <div class="p-3 border-b border-primary/10">
         <div class="relative">
             <app-icon name="search-base" class="absolute w-4 h-4 top-3 left-2.5"></app-icon>
@@ -64,7 +64,7 @@
             </div>
             
             @if (option.value) {
-              <span class="text-primary/40 text-xs">1 = 450 ETB</span>
+              <span class="text-primary/40 text-xs">1 {{ option.value }} = {{ getConversionRate(option.value).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) }} {{ userCurrency() }}</span>
             }
           </button>
         } @empty {

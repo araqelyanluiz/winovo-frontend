@@ -1,4 +1,5 @@
-import { Component, OnInit, signal, inject } from '@angular/core';
+import { Component, OnInit, signal, inject, DestroyRef } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { Icon } from '../../shared/components/icon/icon';
 import { Provider, Game } from '../../core/services/game/game.model';
@@ -13,6 +14,7 @@ import { GameCard } from '../../shared/components/game-card/game-card';
 })
 export class Search implements OnInit {
   private readonly gameService = inject(GameService);
+  private readonly destroyRef = inject(DestroyRef);
 
   protected searchQuery = '';
   protected recentSearches = signal<string[]>(['Sweet Bonanza', 'Gates of Olympus', 'Pragmatic Play']);
@@ -27,25 +29,29 @@ export class Search implements OnInit {
   }
 
   private getProviders(): void {
-    this.gameService.getProviders().subscribe({
-      next: (providers) => {
-        this.providers.set(providers.slice(0, 4));
-      },
-      error: (error) => {
-        console.error('Error fetching providers:', error);
-      },
-    });
+    this.gameService.getProviders()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (providers) => {
+          this.providers.set(providers.slice(0, 4));
+        },
+        error: (error) => {
+          console.error('Error fetching providers:', error);
+        },
+      });
   }
 
   private getGames(): void {
-    this.gameService.getGames().subscribe({
-      next: (games) => {
-        this.allGames.set(games);
-      },
-      error: (error) => {
-        console.error('Error fetching games:', error);
-      },
-    });
+    this.gameService.getGames()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (games) => {
+          this.allGames.set(games);
+        },
+        error: (error) => {
+          console.error('Error fetching games:', error);
+        },
+      });
   }
 
   protected onSearch(): void {

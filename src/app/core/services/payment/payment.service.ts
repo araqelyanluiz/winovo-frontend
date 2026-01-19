@@ -20,4 +20,24 @@ export class Payment {
   getTransactionHistory(telegramId: number, page: number = 1, limit: number = 10): Observable<TransactionHistoryResponse> {
     return this.http.get<TransactionHistoryResponse>(`${this.apiUrl}/casino-transactions/user/${telegramId}?page=${page}&limit=${limit}`);
   }
+  
+  createDeposit(data: {
+    amount: number;
+    crypto_currency: string;
+    crypto_amount: string;
+    telegram_id: number;
+    username: string;
+  }): Observable<any> {
+    return this.http.post(`${this.apiUrl}/deposit/fulgurpay`, data);
+  }
+  
+  createWithdraw(data: {
+    telegram_id: number;
+    username: string;
+    crypto_amount: number;
+    crypto_currency: string;
+    address: string;
+  }): Observable<any> {
+    return this.http.post(`${this.apiUrl}/withdraw/fulgurpay`, data);
+  }
 }

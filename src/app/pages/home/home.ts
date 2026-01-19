@@ -22,6 +22,9 @@ export class Home implements OnInit {
   protected readonly newGames = signal<Game[]>([]);
   protected readonly hotGames = signal<Game[]>([]);
   protected readonly isLoadingGames = signal<boolean>(true);
+  protected readonly isLoadingTopGames = signal<boolean>(true);
+  protected readonly isLoadingNewGames = signal<boolean>(true);
+  protected readonly isLoadingHotGames = signal<boolean>(true);
 
   // Carousel configuration
   carouselAutoplay = true;
@@ -101,10 +104,11 @@ export class Home implements OnInit {
     this.gameService.getGamesByTagType('top').subscribe({
       next: (topGames) => {
         this.topGames.set(topGames.slice(0, 20));
+        this.isLoadingTopGames.set(false);
       },
       error: (error) => {
-        console.error('Failed to load games:', error);
-        this.isLoadingGames.set(false);
+        console.error('Failed to load top games:', error);
+        this.isLoadingTopGames.set(false);
       }
     })
   }
@@ -113,10 +117,11 @@ export class Home implements OnInit {
     this.gameService.getGamesByTagType('new').subscribe({
       next: (newGames) => {
         this.newGames.set(newGames.slice(0, 20));
+        this.isLoadingNewGames.set(false);
       },
       error: (error) => {
-        console.error('Failed to load games:', error);
-        this.isLoadingGames.set(false);
+        console.error('Failed to load new games:', error);
+        this.isLoadingNewGames.set(false);
       }
     })
   }
@@ -125,10 +130,11 @@ export class Home implements OnInit {
     this.gameService.getGamesByTagType('hot').subscribe({
       next: (hotGames) => {
         this.hotGames.set(hotGames.slice(0, 20));
+        this.isLoadingHotGames.set(false);
       },
       error: (error) => {
-        console.error('Failed to load games:', error);
-        this.isLoadingGames.set(false);
+        console.error('Failed to load hot games:', error);
+        this.isLoadingHotGames.set(false);
       }
     })
   }

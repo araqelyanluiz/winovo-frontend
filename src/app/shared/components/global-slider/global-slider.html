@@ -1,5 +1,7 @@
 <div class="w-full">
-  @if (items().length === 0) {
+  @if (isLoading()) {
+    <app-loader />
+  } @else if (items().length === 0) {
     <div class="flex items-center justify-center h-64 text-white/50 text-sm">
       No items available
     </div>

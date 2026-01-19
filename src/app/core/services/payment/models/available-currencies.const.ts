@@ -2,13 +2,13 @@ import { SearchSelectOption } from '../../../../shared/components/serach-select/
 
 export const AVAILABLE_CURRENCIES: SearchSelectOption[] = [
   {
-    id: 'ftnf',
-    label: 'FTN (BPRC-20)',
-    value: 'FTNF',
-    color: '#FF6B35',
+    id: 'usdt',
+    label: 'Tether(ERC-20)',
+    value: 'USDT',
+    color: '#26A17B',
     minDepositAmount: 10,
     minWithdrawAmount: 10,
-    maxWithdrawAmount: 100000
+    maxWithdrawAmount: 50000
   },
   {
     id: 'btc',
@@ -29,15 +29,6 @@ export const AVAILABLE_CURRENCIES: SearchSelectOption[] = [
     maxWithdrawAmount: 100
   },
   {
-    id: 'usdt',
-    label: 'Tether(ERC-20)',
-    value: 'USDT',
-    color: '#26A17B',
-    minDepositAmount: 10,
-    minWithdrawAmount: 10,
-    maxWithdrawAmount: 50000
-  },
-  {
     id: 'usdt_t',
     label: 'Tether(TRC-20)',
     value: 'USDT_T',
@@ -54,6 +45,15 @@ export const AVAILABLE_CURRENCIES: SearchSelectOption[] = [
     minDepositAmount: 100,
     minWithdrawAmount: 100,
     maxWithdrawAmount: 1000000
+  },
+  {
+    id: 'ftnf',
+    label: 'FTN (BPRC-20)',
+    value: 'FTNF',
+    color: '#FF6B35',
+    minDepositAmount: 10,
+    minWithdrawAmount: 10,
+    maxWithdrawAmount: 100000
   },
   {
     id: 'usdc',

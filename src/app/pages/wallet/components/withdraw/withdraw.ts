@@ -20,6 +20,8 @@ export class Withdraw {
   
   protected availableCurrencies = this.paymentService.getAvailableCurrencies();
   protected selectedCurrency = signal<SearchSelectOption | null>(this.availableCurrencies[0] || null);
+  protected showSuccess = signal<boolean>(false);
+  protected showError = signal<boolean>(false);
   
   protected currency = computed(() => this.selectedCurrency()?.value || 'FTNF');
   protected minWithdrawAmount = computed(() => this.selectedCurrency()?.minWithdrawAmount ?? 10);
@@ -49,7 +51,7 @@ export class Withdraw {
     });
   }
   
-  protected errorMessage = computed(() => {
+  protected formErrorMessage = computed(() => {
     const amountControl = this.withdrawForm.get('amount');
     if (!amountControl?.value || !amountControl?.touched) {
       return '';
@@ -78,14 +80,12 @@ export class Withdraw {
     return '';
   });
   
+  protected isButtonDisabled = computed(() => !this.withdrawForm.valid);
+  
   onCurrencySelected(currency: SearchSelectOption) {
     this.selectedCurrency.set(currency);
   }
-  
-  protected isButtonDisabled = computed(() => {
-    return !this.withdrawForm.valid;
-  });
-  
+
   onAmountInput(event: Event) {
     const input = event.target as HTMLInputElement;
     let value = input.value;
@@ -99,5 +99,44 @@ export class Withdraw {
     
     this.withdrawForm.patchValue({ amount: value }, { emitEvent: false });
     input.value = value;
+  }
+  
+  onWithdraw() {
+    if (this.withdrawForm.invalid) {
+      return;
+    }
+    
+    const user = this.user();
+    if (!user) {
+      return;
+    }
+    
+    const withdrawData = {
+      telegram_id: user.telegram_id,
+      username: user.username || '',
+      crypto_amount: parseFloat(this.withdrawForm.get('amount')?.value || '0'),
+      crypto_currency: this.currency(),
+      address: this.withdrawForm.get('walletAddress')?.value || ''
+    };
+    
+    this.paymentService.createWithdraw(withdrawData).subscribe({
+      next: (response) => {
+        if (response.data?.status === 'success' && response.data?.data) {
+          this.showSuccess.set(true);
+          this.showError.set(false);
+          this.withdrawForm.reset();
+          setTimeout(() => this.showSuccess.set(false), 5000);
+        } else {
+          this.showError.set(true);
+          this.showSuccess.set(false);
+          setTimeout(() => this.showError.set(false), 5000);
+        }
+      },
+      error: (error) => {
+        this.showError.set(true);
+        this.showSuccess.set(false);
+        setTimeout(() => this.showError.set(false), 5000);
+      }
+    });
   }
 }
