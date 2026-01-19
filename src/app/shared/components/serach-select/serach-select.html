@@ -1,0 +1,78 @@
+<div class="relative w-full">
+  <button
+    type="button"
+    (click)="toggleDropdown()"
+    class="w-full flex items-center justify-between gap-3 px-4 py-3 bg-primary/10 rounded-xl border border-primary/10 hover:border-primary/20 transition-colors cursor-pointer"
+  >
+    @if (selectedValue()) {
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-full flex items-center justify-center relative">
+            <div  class="opacity-15 w-full h-full absolute top-0 left-0 z-10 rounded-2xl" [ngStyle]="{ background: selectedValue()!.color}"></div>
+            <app-icon [name]="selectedValue()!.id" class="w-6 h-6 relative z-20"></app-icon>
+        </div>
+        <div class="flex flex-col justify-start">
+            <h3 class="text-start text-sm font-medium text-white">{{ selectedValue()!.value }}</h3>
+            <div class="text-start text-xs text-white/40">{{ selectedValue()!.label }}</div>
+        </div>
+      </div>
+    } @else {
+      <span class="text-white/40">Select option</span>
+    }
+    
+    <svg 
+      class="w-5 h-5 text-white/40 transition-transform"
+      [class.rotate-180]="isOpen()"
+      fill="none" 
+      stroke="currentColor" 
+      viewBox="0 0 24 24"
+    >
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+    </svg>
+  </button>
+
+  @if (isOpen()) {
+    <div class="absolute top-full left-0 right-0 mt-2 bg-skin1 rounded-xl border border-primary/10 shadow-xl z-50 overflow-hidden">
+      <div class="p-3 border-b border-primary/10">
+        <div class="relative">
+            <app-icon name="search-base" class="absolute w-4 h-4 top-3 left-2.5"></app-icon>
+            <input
+                type="text"
+                [(ngModel)]="searchQuery"
+                [placeholder]="placeholder()"
+                class="w-full pl-10 pr-4 py-2 bg-black/10 text-white rounded-lg border border-primary/10 focus:border-primary/20 focus:outline-none placeholder-white/40"
+            />
+        </div>
+      </div>
+
+      <div class="max-h-64 overflow-y-auto">
+        @for (option of filteredOptions(); track option.id) {
+          <button
+            type="button"
+            (mousedown)="selectOption(option)"
+            class="w-full flex items-center justify-between px-4 py-3 hover:bg-primary/10 transition-colors cursor-pointer"
+            [class.bg-[#1e1829]]="selectedValue()?.id === option.id"
+          >
+            <div class="flex gap-1.5 items-center justify-start">
+                <div class="w-10 h-10 rounded-full flex items-center justify-center relative">
+                    <div  class="opacity-15 w-full h-full absolute top-0 left-0 z-10 rounded-2xl" [ngStyle]="{ background: option.color}"></div>
+                    <app-icon [name]="option.id" class="w-6 h-6 relative z-20"></app-icon>
+                </div>
+                <div class="flex flex-col justify-start">
+                    <h3 class="text-start text-sm font-medium text-white">{{ option.value }}</h3>
+                    <div class="text-start text-xs text-white/40">{{ option.label }}</div>
+                </div>
+            </div>
+            
+            @if (option.value) {
+              <span class="text-primary/40 text-xs">1 = 450 ETB</span>
+            }
+          </button>
+        } @empty {
+          <div class="px-4 py-8 text-center text-gray-400">
+            No results found
+          </div>
+        }
+      </div>
+    </div>
+  }
+</div>
