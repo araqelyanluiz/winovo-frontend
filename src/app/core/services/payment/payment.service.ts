@@ -34,6 +34,7 @@ export class Payment {
   createWithdraw(data: {
     telegram_id: number;
     username: string;
+    amount: number;
     crypto_amount: number;
     crypto_currency: string;
     address: string;

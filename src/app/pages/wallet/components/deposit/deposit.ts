@@ -1,4 +1,4 @@
-import { Component, inject, signal, computed, effect } from '@angular/core';
+import { Component, inject, signal, computed } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SerachSelect } from '../../../../shared/components/serach-select/serach-select';
 import { SearchSelectOption } from '../../../../shared/components/serach-select/models/search-select.model';
@@ -125,6 +125,7 @@ export class Deposit {
           this.depositAddress.set(response.data.data.address || null);
           this.showSuccess.set(true);
           this.showError.set(false);
+          this.telegramAuthService.refreshUser().subscribe();
         } else {
           this.depositAddress.set(null);
           this.showError.set(true);

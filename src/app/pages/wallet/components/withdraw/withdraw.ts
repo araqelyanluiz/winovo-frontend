@@ -137,6 +137,7 @@ export class Withdraw {
     const withdrawData = {
       telegram_id: user.telegram_id,
       username: user.username || '',
+      amount: converted.amount,
       crypto_amount: converted.convertedValue,
       crypto_currency: converted.toCurrency,
       address: this.withdrawForm.get('walletAddress')?.value || ''
@@ -148,6 +149,7 @@ export class Withdraw {
           this.showSuccess.set(true);
           this.showError.set(false);
           this.withdrawForm.reset();
+          this.telegramAuthService.refreshUser().subscribe();
           setTimeout(() => this.showSuccess.set(false), 5000);
         } else {
           this.showError.set(true);
