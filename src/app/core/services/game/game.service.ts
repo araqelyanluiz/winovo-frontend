@@ -74,7 +74,6 @@ export class GameService {
 
         return this.http.get<GameListResponse>(`${this.API_URL}/games/list`, { params }).pipe(
             tap(response => {
-                console.log('Games response:', response);
                 if (append && this.games().length > 0) {
                     const existingIds = new Set(this.games().map(g => g.id));
                     const newGames = response.result.filter(g => !existingIds.has(g.id));

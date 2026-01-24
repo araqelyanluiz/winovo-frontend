@@ -1,4 +1,4 @@
-import { Component, inject, computed, effect } from '@angular/core';
+import { Component, inject, computed } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Icon } from '../../shared/components/icon/icon';
 import { ConfigService } from '../../core/services/config/config.service';
@@ -23,12 +23,6 @@ export class Header {
   protected readonly userBalanceCurrency = computed(() => this.user()?.projectCurrency ?? 'USD');
   protected readonly userAvatar = computed(() => this.user()?.profile_pic ?? 'assets/images/default-avatar.png');
   protected readonly userName = computed(() => this.user()?.first_name);
-
-  constructor() {
-    effect(() => {
-     
-    });
-  }
 
   openSupportChat() {
     const supportLink = this.appConfig().supportChatLink;

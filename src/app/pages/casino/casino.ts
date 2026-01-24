@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal, computed, ViewChild, ElementRef, AfterViewInit, OnDestroy, afterNextRender } from '@angular/core';
+import { Component, inject, OnInit, signal, ViewChild, ElementRef, OnDestroy, afterNextRender } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Game, Provider } from '../../core/services/game/game.model';
 import { GameService } from '../../core/services/game/game.service';
@@ -78,7 +78,6 @@ export class Casino implements OnInit, OnDestroy {
       (entries) => {
         const [entry] = entries;
         if (entry.isIntersecting && !this.isLoading() && this.hasMoreGames()) {
-          console.log('Loading next page...');
           this.loadNextPage();
         }
       },
@@ -90,7 +89,6 @@ export class Casino implements OnInit, OnDestroy {
     );
 
     this.observer.observe(this.sentinel.nativeElement);
-    console.log('IntersectionObserver setup complete');
   }
 
   private loadNextPage(): void {

@@ -1,4 +1,4 @@
-import { Component, computed, effect, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { TelegramAuthService } from '../../core/services/telegram/telegram-auth.service';
 import { RouterModule } from "@angular/router";
 import { Icon } from '../../shared/components/icon/icon';
@@ -14,10 +14,4 @@ export class Wallet {
   protected readonly user = this.telegramAuthService.user;
   protected readonly userBalance = computed(() => this.user()?.balance ?? 0);
   protected readonly userBalanceCurrency = computed(() => this.user()?.projectCurrency ?? 'USD');
-
-  constructor() {
-    effect(() => {
-     
-    });
-  }
 }

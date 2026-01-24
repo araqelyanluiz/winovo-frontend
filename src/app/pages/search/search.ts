@@ -76,7 +76,6 @@ export class Search implements OnInit {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (response) => {
-          console.log(response.result)
           this.allGames.set(response.result);
           
           if (this.recentSearches().length === 0) {

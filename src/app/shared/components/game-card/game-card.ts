@@ -1,6 +1,5 @@
 import { Component, input, signal, inject } from '@angular/core';
 import { Game } from '../../../core/services/game/game.model';
-import { Icon } from '../icon/icon';
 import { GameService } from '../../../core/services/game/game.service';
 
 @Component({

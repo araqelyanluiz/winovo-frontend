@@ -42,7 +42,6 @@ export class Home implements OnInit {
       backgroundImage: 'url(/assets/images/banners/banner3.png)',
     },
   ];
-  constructor() {}
 
   ngOnInit(): void {
     this.getGames();
