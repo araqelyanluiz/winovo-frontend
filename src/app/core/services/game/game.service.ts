@@ -54,18 +54,23 @@ export class GameService {
 
     private providers$: Observable<Provider[]> | null = null;
 
-    getGames(page: number = 1, limit: number = 30, append: boolean = false, providerName?: string): Observable<GameListResponse> {
+    getGames(page?: number, limit?: number, append?: boolean, providerName?: string): Observable<GameListResponse> {
         this.isLoading.set(true);
         let params = new HttpParams()
-            .set('bankGroupId', this.projectKey)
-            .set('page', page.toString())
-            .set('limit', limit.toString());
+            .set('bankGroupId', this.projectKey);
+
+        if (page !== undefined && page !== null) {
+            params = params.set('page', page.toString());
+        }
+
+        if (limit !== undefined && limit !== null) {
+            params = params.set('limit', limit.toString());
+        }
 
         if (providerName && providerName !== 'All') {
             params = params.set('provider', providerName);
         }
 
-        console.log('Fetching games with params:', { page, limit, append, providerName });
 
         return this.http.get<GameListResponse>(`${this.API_URL}/games/list`, { params }).pipe(
             tap(response => {
@@ -103,11 +108,17 @@ export class GameService {
         return this.games().filter(game => game.tagType === tagType);
     }
 
-    getGamesByTag(tagType: string, limit: number = 10): Observable<GameListResponse> {
-        const params = new HttpParams()
-            .set('bankGroupId', this.projectKey)
-            .set('tagType', tagType)
-            .set('limit', limit.toString());
+    getGamesByTag(tagType?: string, limit?: number): Observable<GameListResponse> {
+        let params = new HttpParams()
+            .set('bankGroupId', this.projectKey);
+
+        if (tagType) {
+            params = params.set('tagType', tagType);
+        }
+
+        if (limit !== undefined && limit !== null) {
+            params = params.set('limit', limit.toString());
+        }
 
         return this.http.get<GameListResponse>(`${this.API_URL}/games/list`, { params });
     }

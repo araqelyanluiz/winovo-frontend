@@ -10,8 +10,15 @@
                 (ngModelChange)="onSearch()"
                 (keyup.enter)="onSearch()"
                 placeholder="Search slots..."
-                class="w-full bg-white/5 border border-white/10 rounded-2xl pl-12 pr-4 py-3 text-white placeholder:text-white/40 focus:outline-none focus:border-primary/50 transition-colors"
+                class="w-full bg-white/5 border border-white/10 rounded-2xl pl-12 pr-12 py-3 text-white placeholder:text-white/40 focus:outline-none focus:border-primary/50 transition-colors"
             />
+            @if (searchQuery) {
+                <button
+                    (click)="clearSearch()"
+                    class="absolute right-4 top-1/2 -translate-y-1/2 text-white/40 hover:text-white/80 transition-colors cursor-pointer">
+                    <app-icon name="close" class="w-5 h-5"></app-icon>
+                </button>
+            }
         </div>
     </div>
 
@@ -51,10 +58,12 @@
             <h2 class="text-lg font-bold text-white mb-3">Top Providers</h2>
             <div class="grid grid-cols-2 gap-3">
                 @for (provider of providers(); track provider.name) {
-                    <div class="bg-white/5 rounded-2xl p-4 hover:bg-white/10 transition-colors cursor-pointer">
+                    <button
+                        (click)="navigateToProvider(provider.name)"
+                        class="bg-white/5 rounded-2xl p-4 hover:bg-white/10 transition-colors cursor-pointer text-left">
                         <h3 class="text-white font-bold text-base mb-1">{{ provider.name }}</h3>
                         <p class="text-white/60 text-sm">{{ provider.games.length }} games</p>
-                    </div>
+                    </button>
                 }
             </div>
         </div>

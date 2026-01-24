@@ -1,4 +1,5 @@
 import { Component, inject, OnInit, signal, computed, ViewChild, ElementRef, AfterViewInit, OnDestroy, afterNextRender } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { Game, Provider } from '../../core/services/game/game.model';
 import { GameService } from '../../core/services/game/game.service';
 import { Icon } from "../../shared/components/icon/icon";
@@ -14,6 +15,7 @@ import { CommonModule } from '@angular/common';
 })
 export class Casino implements OnInit, OnDestroy {
   private readonly gameService = inject(GameService);
+  private readonly route = inject(ActivatedRoute);
   private observer?: IntersectionObserver;
 
   @ViewChild('sentinel', { read: ElementRef }) sentinel?: ElementRef<HTMLElement>;
@@ -37,8 +39,18 @@ export class Casino implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.loadGames();
     this.getProviders();
+    
+    this.route.queryParams.subscribe(params => {
+      const providerFromQuery = params['provider'];
+      
+      if (providerFromQuery) {
+        this.selectedProvider.set(providerFromQuery);
+        this.loadGames(providerFromQuery);
+      } else {
+        this.loadGames();
+      }
+    });
   }
 
   private loadGames(providerName?: string): void {
