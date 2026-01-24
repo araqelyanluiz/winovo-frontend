@@ -42,13 +42,13 @@ export class Search implements OnInit {
   }
 
   private getGames(): void {
-    this.gameService.getGames()
+    this.gameService.getGames(1, 1000)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
-        next: (games) => {
-          this.allGames.set(games);
+        next: (response) => {
+          this.allGames.set(response.result);
         },
-        error: (error) => {
+        error: (error: Error) => {
           console.error('Error fetching games:', error);
         },
       });

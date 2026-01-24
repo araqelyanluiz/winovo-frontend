@@ -32,6 +32,9 @@ export class GameService {
     readonly games = signal<Game[]>([]);
     readonly providers = signal<Provider[]>([]);
     readonly isLoading = signal<boolean>(false);
+    readonly totalGames = signal<number>(0);
+    readonly currentPage = signal<number>(1);
+    readonly hasMoreGames = signal<boolean>(true);
     
     private bottomSheetState = signal<GameBottomSheetState>({
       isOpen: false,
@@ -49,33 +52,49 @@ export class GameService {
     
     readonly launchDialogState = this.gameLaunchDialogState.asReadonly();
 
-    private games$: Observable<Game[]> | null = null;
     private providers$: Observable<Provider[]> | null = null;
 
-    getGames(): Observable<Game[]> {
-        if (this.games().length > 0) {
-            return this.games$!;
-        }
+    getGames(page: number = 1, limit: number = 30, append: boolean = false): Observable<GameListResponse> {
+        this.isLoading.set(true);
+        const params = new HttpParams()
+            .set('bankGroupId', this.projectKey)
+            .set('page', page.toString())
+            .set('limit', limit.toString());
 
-        if (!this.games$) {
-            this.isLoading.set(true);
-            const params = new HttpParams().set('bankGroupId', this.projectKey);
-            this.games$ = this.http.get<GameListResponse>(`${this.API_URL}/games/list`, { params: params }).pipe(
-                map(response => response.result),
-                tap(games => {
-                    this.games.set(games);
-                    this.isLoading.set(false);
-                }),
-                shareReplay(1)
-            );
-        }
-        return this.games$;
+        return this.http.get<GameListResponse>(`${this.API_URL}/games/list`, { params }).pipe(
+            tap(response => {
+                const shouldAppend = append || this.games().length > 0;
+                if (shouldAppend) {
+                    const existingIds = new Set(this.games().map(g => g.id));
+                    const newGames = response.result.filter(g => !existingIds.has(g.id));
+                    this.games.set([...this.games(), ...newGames]);
+                } else {
+                    this.games.set(response.result);
+                }
+                this.totalGames.set(response.meta.totalGames);
+                this.currentPage.set(response.meta.page);
+                this.hasMoreGames.set(response.meta.page < response.meta.totalPages);
+                this.isLoading.set(false);
+            })
+        );
     }
 
-    getGamesByTagType(tagType: string): Observable<Game[]> {
-        return this.getGames().pipe(
-            map(games => games.filter(game => game.tagType === tagType))
-        );
+    loadMoreGames(): void {
+        if (this.hasMoreGames() && !this.isLoading()) {
+            const nextPage = this.currentPage() + 1;
+            this.getGames(nextPage, 30, true).subscribe();
+        }
+    }
+
+    resetGames(): void {
+        this.games.set([]);
+        this.currentPage.set(1);
+        this.hasMoreGames.set(true);
+        this.getGames(1, 30).subscribe();
+    }
+
+    getGamesByTagType(tagType: string): Game[] {
+        return this.games().filter(game => game.tagType === tagType);
     }
 
     getProviders(): Observable<Provider[]> {

@@ -1,5 +1,11 @@
 export interface GameListResponse {
   result: Game[];
+  meta: {
+    page: number;
+    limit: number;
+    totalGames: number;
+    totalPages: number;
+  };
 }
 
 export interface ProviderListResponse {

@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit, signal, computed, ViewChild, ElementRef, AfterViewInit, OnDestroy, afterNextRender } from '@angular/core';
 import { Game, Provider } from '../../core/services/game/game.model';
 import { GameService } from '../../core/services/game/game.service';
 import { Icon } from "../../shared/components/icon/icon";
@@ -11,54 +11,97 @@ import { Loader } from "../../shared/components/loader/loader";
   templateUrl: './casino.html',
   styleUrl: './casino.css',
 })
-export class Casino implements OnInit {
+export class Casino implements OnInit, OnDestroy {
   private readonly gameService = inject(GameService);
+  private observer?: IntersectionObserver;
 
-  protected readonly games = signal<Game[]>([]);
+  @ViewChild('sentinel', { read: ElementRef }) sentinel?: ElementRef<HTMLElement>;
+
   protected readonly providers = signal<Provider[]>([]);
   protected readonly selectedProvider = signal<string>('All');
-  protected readonly filteredGames = signal<Game[]>([]);
-  protected readonly isLoading = signal<boolean>(true);
+  protected readonly isLoadingMore = signal<boolean>(false);
+
+  protected get totalGames() { return this.gameService.totalGames; }
+  protected get isLoading() { return this.gameService.isLoading; }
+  protected get hasMoreGames() { return this.gameService.hasMoreGames; }
+
+  protected readonly filteredGames = computed(() => {
+    const providerName = this.selectedProvider();
+    const allGames = this.gameService.games();
+    
+    if (providerName === 'All') {
+      return allGames;
+    } else {
+      const provider = this.providers().find(p => p.name === providerName);
+      if (provider) {
+        return allGames.filter(game => provider.games.includes(game.id));
+      }
+      return allGames;
+    }
+  });
+
+  constructor() {
+    afterNextRender(() => {
+      this.setupIntersectionObserver();
+    });
+  }
 
   ngOnInit(): void {
-    this.getGames();
+    this.loadGames();
     this.getProviders();
   }
 
-  private getGames(): void {
-    this.isLoading.set(true);
-    const startTime = Date.now();
-    const minLoadingTime = 300;
-    
-    this.gameService.getGames().subscribe({
-      next: (games) => {
-        const elapsed = Date.now() - startTime;
-        const remainingTime = Math.max(0, minLoadingTime - elapsed);
-        
-        setTimeout(() => {
-          this.games.set(games);
-          this.filteredGames.set(games);
-          this.isLoading.set(false);
-        }, remainingTime);
+  private loadGames(): void {
+    this.gameService.getGames(1, 30).subscribe({
+      next: () => {
+        // Фильтр обновится автоматически через computed
       },
       error: (error) => {
         console.error('Error fetching games:', error);
-        const elapsed = Date.now() - startTime;
-        const remainingTime = Math.max(0, minLoadingTime - elapsed);
-        
-        setTimeout(() => {
-          this.isLoading.set(false);
-        }, remainingTime);
       },
     });
   }
 
+  ngOnDestroy(): void {
+    this.observer?.disconnect();
+  }
+
+  private setupIntersectionObserver(): void {
+    if (!this.sentinel) {
+      console.warn('Sentinel element not found');
+      return;
+    }
+
+    this.observer = new IntersectionObserver(
+      (entries) => {
+        const [entry] = entries;
+        if (entry.isIntersecting && !this.isLoading() && this.hasMoreGames()) {
+          console.log('Loading next page...');
+          this.loadNextPage();
+        }
+      },
+      {
+        root: null,
+        rootMargin: '800px 0px',
+        threshold: 0.1,
+      }
+    );
+
+    this.observer.observe(this.sentinel.nativeElement);
+    console.log('IntersectionObserver setup complete');
+  }
+
+  private loadNextPage(): void {
+    if (this.isLoading() || !this.hasMoreGames()) return;
+    this.gameService.loadMoreGames();
+  }
+
   private getProviders(): void {
     this.gameService.getProviders().subscribe({
-      next: (providers) => {
+      next: (providers: Provider[]) => {
         this.providers.set(providers);
       },
-      error: (error) => {
+      error: (error: Error) => {
         console.error('Error fetching providers:', error);
       },
     });
@@ -66,15 +109,6 @@ export class Casino implements OnInit {
 
   protected selectProvider(providerName: string): void {
     this.selectedProvider.set(providerName);
-    if (providerName === 'All') {
-      this.filteredGames.set(this.games());
-    } else {
-      const provider = this.providers().find(p => p.name === providerName);
-      if (provider) {
-        this.filteredGames.set(
-          this.games().filter(game => provider.games.includes(game.id))
-        );
-      }
-    }
+    // Фильтр обновится автоматически через computed
   }
 }

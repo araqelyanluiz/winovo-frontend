@@ -1,5 +1,18 @@
 <div class="rounded-2xl overflow-hidden relative group cursor-pointer" (click)="launchGame()">
     <img [src]="game()?.image" [alt]="game()?.name" class="w-full h-40 md:h-48 object-cover transition-transform duration-300" [class.scale-110]="showButtons()" />
+    
+    @if (game()?.tagType) {
+        <div class="absolute top-2 left-2 z-20 px-2 rounded-full text-[10px] font-semibold uppercase pointer-events-none bg-gradient-to-r shadow-lg"
+             [class.from-[#f43f5e]]="game()?.tagType === 'hot'"
+             [class.to-[#f97316]]="game()?.tagType === 'hot'"
+             [class.from-[#f59e0b]]="game()?.tagType === 'top'"
+             [class.to-[#facc15]]="game()?.tagType === 'top'"
+             [class.from-[#10b981]]="game()?.tagType === 'new'"
+             [class.to-[#2dd4bf]]="game()?.tagType === 'new'">
+            {{ game()?.tagType }}
+        </div>
+    }
+    
     <div class="absolute flex flex-col items-start p-2 justify-end w-full h-full bg-gradient-to-t from-black/80 via-black/50 to-transparent top-0 left-0 z-10 pointer-events-none">
         <h3 class="text-sm md:text-md font-bold leading-5 mb-1">{{ game()?.name }}</h3>
         <span class="text-xs text-white/60 capitalize">{{ game()?.sectionid }}</span>

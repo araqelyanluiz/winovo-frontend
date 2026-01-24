@@ -3,11 +3,11 @@
         <app-icon name="slot-machine"></app-icon>
         <h1 class="text-2xl font-display font-bold text-white">Slots</h1>
     </div>
-    <p class="text-sm text-white/40">{{ filteredGames().length }} games available</p>
+    <p class="text-sm text-white/40">{{ totalGames() }} games available</p>
 </div>
 
 <div class="pb-4">
-    @if (isLoading()) {
+    @if (isLoading() && filteredGames().length === 0) {
         <app-loader></app-loader>
     } @else {
         <div class="flex gap-2 overflow-x-auto no-scrollbar px-4 py-3">
@@ -32,6 +32,14 @@
             @for (game of filteredGames(); track game.id) {
             <app-game-card [game]="game"></app-game-card>
             }
+        </div>
+    }
+
+    <div #sentinel class="h-px w-full"></div>
+
+    @if (isLoading() && filteredGames().length > 0) {
+        <div class="flex justify-center py-4">
+            <app-loader></app-loader>
         </div>
     }
 </div>

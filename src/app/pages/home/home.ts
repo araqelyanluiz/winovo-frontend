@@ -52,12 +52,12 @@ export class Home implements OnInit {
   }
 
   private getGames(): void {
-    this.gameService.getGames().subscribe({
-      next: (games) => {
-        this.games.set(games.slice(0, 40));
+    this.gameService.getGames(1, 40).subscribe({
+      next: (response) => {
+        this.games.set(response.result);
         this.isLoadingGames.set(false);
       },
-      error: (error) => {
+      error: (error: Error) => {
         console.error('Failed to load games:', error);
         this.isLoadingGames.set(false);
       }
@@ -65,42 +65,21 @@ export class Home implements OnInit {
   }
 
   private getTopGames():void {
-    this.gameService.getGamesByTagType('top').subscribe({
-      next: (topGames) => {
-        this.topGames.set(topGames.slice(0, 20));
-        this.isLoadingTopGames.set(false);
-      },
-      error: (error) => {
-        console.error('Failed to load top games:', error);
-        this.isLoadingTopGames.set(false);
-      }
-    })
+    const topGames = this.gameService.getGamesByTagType('top');
+    this.topGames.set(topGames.slice(0, 20));
+    this.isLoadingTopGames.set(false);
   }
 
   private getNewGames():void {
-    this.gameService.getGamesByTagType('new').subscribe({
-      next: (newGames) => {
-        this.newGames.set(newGames.slice(0, 20));
-        this.isLoadingNewGames.set(false);
-      },
-      error: (error) => {
-        console.error('Failed to load new games:', error);
-        this.isLoadingNewGames.set(false);
-      }
-    })
+    const newGames = this.gameService.getGamesByTagType('new');
+    this.newGames.set(newGames.slice(0, 20));
+    this.isLoadingNewGames.set(false);
   }
 
   private getHotGames():void {
-    this.gameService.getGamesByTagType('hot').subscribe({
-      next: (hotGames) => {
-        this.hotGames.set(hotGames.slice(0, 20));
-        this.isLoadingHotGames.set(false);
-      },
-      error: (error) => {
-        console.error('Failed to load hot games:', error);
-        this.isLoadingHotGames.set(false);
-      }
-    })
+    const hotGames = this.gameService.getGamesByTagType('hot');
+    this.hotGames.set(hotGames.slice(0, 20));
+    this.isLoadingHotGames.set(false);
   }
 
 }
