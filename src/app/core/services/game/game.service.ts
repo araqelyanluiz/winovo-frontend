@@ -54,17 +54,23 @@ export class GameService {
 
     private providers$: Observable<Provider[]> | null = null;
 
-    getGames(page: number = 1, limit: number = 30, append: boolean = false): Observable<GameListResponse> {
+    getGames(page: number = 1, limit: number = 30, append: boolean = false, providerName?: string): Observable<GameListResponse> {
         this.isLoading.set(true);
-        const params = new HttpParams()
+        let params = new HttpParams()
             .set('bankGroupId', this.projectKey)
             .set('page', page.toString())
             .set('limit', limit.toString());
 
+        if (providerName && providerName !== 'All') {
+            params = params.set('provider', providerName);
+        }
+
+        console.log('Fetching games with params:', { page, limit, append, providerName });
+
         return this.http.get<GameListResponse>(`${this.API_URL}/games/list`, { params }).pipe(
             tap(response => {
-                const shouldAppend = append || this.games().length > 0;
-                if (shouldAppend) {
+                console.log('Games response:', response);
+                if (append && this.games().length > 0) {
                     const existingIds = new Set(this.games().map(g => g.id));
                     const newGames = response.result.filter(g => !existingIds.has(g.id));
                     this.games.set([...this.games(), ...newGames]);
@@ -79,22 +85,31 @@ export class GameService {
         );
     }
 
-    loadMoreGames(): void {
+    loadMoreGames(providerName?: string): void {
         if (this.hasMoreGames() && !this.isLoading()) {
             const nextPage = this.currentPage() + 1;
-            this.getGames(nextPage, 30, true).subscribe();
+            this.getGames(nextPage, 30, true, providerName).subscribe();
         }
     }
 
-    resetGames(): void {
+    resetGames(providerName?: string): void {
         this.games.set([]);
         this.currentPage.set(1);
         this.hasMoreGames.set(true);
-        this.getGames(1, 30).subscribe();
+        this.getGames(1, 30, false, providerName).subscribe();
     }
 
     getGamesByTagType(tagType: string): Game[] {
         return this.games().filter(game => game.tagType === tagType);
+    }
+
+    getGamesByTag(tagType: string, limit: number = 10): Observable<GameListResponse> {
+        const params = new HttpParams()
+            .set('bankGroupId', this.projectKey)
+            .set('tagType', tagType)
+            .set('limit', limit.toString());
+
+        return this.http.get<GameListResponse>(`${this.API_URL}/games/list`, { params });
     }
 
     getProviders(): Observable<Provider[]> {

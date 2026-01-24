@@ -7,7 +7,7 @@
 </div>
 
 <div class="pb-4">
-    @if (isLoading() && filteredGames().length === 0) {
+    @if (isLoading() && filteredGames.length === 0) {
         <app-loader></app-loader>
     } @else {
         <div class="flex gap-2 overflow-x-auto no-scrollbar px-4 py-3">
@@ -23,13 +23,13 @@
                 [class.text-white]="selectedProvider() === provider.name"
                 [class.text-white/60]="selectedProvider() !== provider.name"
                 class="px-4 py-2 rounded-xl text-sm font-medium whitespace-nowrap transition-colors cursor-pointer">
-                {{ provider.name }}
+                {{ provider.name | titlecase }}
             </button>
             }
         </div>
 
         <div class="grid grid-cols-3 md:grid-cols-5 gap-3 pt-2 px-4">
-            @for (game of filteredGames(); track game.id) {
+            @for (game of filteredGames; track game.id) {
             <app-game-card [game]="game"></app-game-card>
             }
         </div>
@@ -37,7 +37,7 @@
 
     <div #sentinel class="h-px w-full"></div>
 
-    @if (isLoading() && filteredGames().length > 0) {
+    @if (isLoading() && filteredGames.length > 0) {
         <div class="flex justify-center py-4">
             <app-loader></app-loader>
         </div>

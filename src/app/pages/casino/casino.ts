@@ -4,10 +4,11 @@ import { GameService } from '../../core/services/game/game.service';
 import { Icon } from "../../shared/components/icon/icon";
 import { GameCard } from "../../shared/components/game-card/game-card";
 import { Loader } from "../../shared/components/loader/loader";
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-casino',
-  imports: [Icon, GameCard, Loader],
+  imports: [Icon, GameCard, Loader,CommonModule],
   templateUrl: './casino.html',
   styleUrl: './casino.css',
 })
@@ -25,20 +26,9 @@ export class Casino implements OnInit, OnDestroy {
   protected get isLoading() { return this.gameService.isLoading; }
   protected get hasMoreGames() { return this.gameService.hasMoreGames; }
 
-  protected readonly filteredGames = computed(() => {
-    const providerName = this.selectedProvider();
-    const allGames = this.gameService.games();
-    
-    if (providerName === 'All') {
-      return allGames;
-    } else {
-      const provider = this.providers().find(p => p.name === providerName);
-      if (provider) {
-        return allGames.filter(game => provider.games.includes(game.id));
-      }
-      return allGames;
-    }
-  });
+  protected get filteredGames() {
+    return this.gameService.games();
+  }
 
   constructor() {
     afterNextRender(() => {
@@ -51,10 +41,10 @@ export class Casino implements OnInit, OnDestroy {
     this.getProviders();
   }
 
-  private loadGames(): void {
-    this.gameService.getGames(1, 30).subscribe({
+  private loadGames(providerName?: string): void {
+    this.gameService.getGames(1, 30, false, providerName).subscribe({
       next: () => {
-        // Фильтр обновится автоматически через computed
+        // Games loaded from API
       },
       error: (error) => {
         console.error('Error fetching games:', error);
@@ -93,7 +83,8 @@ export class Casino implements OnInit, OnDestroy {
 
   private loadNextPage(): void {
     if (this.isLoading() || !this.hasMoreGames()) return;
-    this.gameService.loadMoreGames();
+    const providerName = this.selectedProvider();
+    this.gameService.loadMoreGames(providerName === 'All' ? undefined : providerName);
   }
 
   private getProviders(): void {
@@ -109,6 +100,7 @@ export class Casino implements OnInit, OnDestroy {
 
   protected selectProvider(providerName: string): void {
     this.selectedProvider.set(providerName);
-    // Фильтр обновится автоматически через computed
+    const provider = providerName === 'All' ? undefined : providerName;
+    this.gameService.resetGames(provider);
   }
 }

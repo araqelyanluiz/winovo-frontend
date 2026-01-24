@@ -52,7 +52,7 @@ export class Home implements OnInit {
   }
 
   private getGames(): void {
-    this.gameService.getGames(1, 40).subscribe({
+    this.gameService.getGames(1, 30).subscribe({
       next: (response) => {
         this.games.set(response.result);
         this.isLoadingGames.set(false);
@@ -64,22 +64,43 @@ export class Home implements OnInit {
     });
   }
 
-  private getTopGames():void {
-    const topGames = this.gameService.getGamesByTagType('top');
-    this.topGames.set(topGames.slice(0, 20));
-    this.isLoadingTopGames.set(false);
+  private getTopGames(): void {
+    this.gameService.getGamesByTag('top', 10).subscribe({
+      next: (response) => {
+        this.topGames.set(response.result);
+        this.isLoadingTopGames.set(false);
+      },
+      error: (error: Error) => {
+        console.error('Failed to load top games:', error);
+        this.isLoadingTopGames.set(false);
+      }
+    });
   }
 
-  private getNewGames():void {
-    const newGames = this.gameService.getGamesByTagType('new');
-    this.newGames.set(newGames.slice(0, 20));
-    this.isLoadingNewGames.set(false);
+  private getNewGames(): void {
+    this.gameService.getGamesByTag('new', 10).subscribe({
+      next: (response) => {
+        this.newGames.set(response.result);
+        this.isLoadingNewGames.set(false);
+      },
+      error: (error: Error) => {
+        console.error('Failed to load new games:', error);
+        this.isLoadingNewGames.set(false);
+      }
+    });
   }
 
-  private getHotGames():void {
-    const hotGames = this.gameService.getGamesByTagType('hot');
-    this.hotGames.set(hotGames.slice(0, 20));
-    this.isLoadingHotGames.set(false);
+  private getHotGames(): void {
+    this.gameService.getGamesByTag('hot', 10).subscribe({
+      next: (response) => {
+        this.hotGames.set(response.result);
+        this.isLoadingHotGames.set(false);
+      },
+      error: (error: Error) => {
+        console.error('Failed to load hot games:', error);
+        this.isLoadingHotGames.set(false);
+      }
+    });
   }
 
 }
