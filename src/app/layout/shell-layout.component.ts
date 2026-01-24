@@ -30,23 +30,18 @@ export class ShellLayoutComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     const webApp = this.telegramAuthService.getWebApp();
-    console.log('ShellLayout: WebApp available:', !!webApp);
-    console.log('ShellLayout: BackButton available:', !!(webApp && webApp.BackButton));
     
     if (webApp?.BackButton) {
       this.backButtonHandler = () => {
-        console.log('BackButton clicked, navigating to /home');
         this.router.navigate(['/home']);
       };
       
       try {
         webApp.BackButton.onClick(this.backButtonHandler);
-        console.log('BackButton handler registered');
         
         this.router.events.pipe(
           filter(event => event instanceof NavigationEnd)
         ).subscribe((event: any) => {
-          console.log('Navigation ended:', event.url);
           if (event.url === '/home' || event.url === '/') {
             webApp.BackButton.hide();
           } else {

@@ -10,7 +10,7 @@
     <div class="relative text-center max-w-md">
         <div class="relative inline-block mb-6">
             <div class="w-32 h-32 bg-gradient-to-br from-[#2d3047] to-[#1f2235] rounded-3xl flex items-center justify-center shadow-2xl border border-white/10">
-                <img src="/assets/images/logo.png" alt="WINOVO" class="w-full h-auto object-contain" />
+                <img [src]="'/assets/images/logo.png' | versionedAsset" alt="WINOVO" class="w-full h-auto object-contain" />
             </div>
             <div class="absolute top-0 right-0 text-4xl">
                 <app-icon name="shine" class="w-6 h-6 text-secondary"></app-icon>

@@ -1,5 +1,5 @@
 <div class="rounded-2xl overflow-hidden relative group cursor-pointer" (click)="launchGame()">
-    <img [src]="game()?.image" [alt]="game()?.name" class="w-full h-40 md:h-48 object-cover transition-transform duration-300" [class.scale-110]="showButtons()" />
+    <img [src]="game()?.image | versionedAsset" [alt]="game()?.name" class="w-full h-40 md:h-48 object-cover transition-transform duration-300" [class.scale-110]="showButtons()" />
     
     @if (game()?.tagType) {
         <div class="absolute top-2 left-2 z-20 px-2 rounded-full text-[10px] font-semibold uppercase pointer-events-none bg-gradient-to-r shadow-lg"

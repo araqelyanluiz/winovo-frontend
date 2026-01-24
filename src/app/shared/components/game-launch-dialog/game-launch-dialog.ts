@@ -4,6 +4,7 @@ import { Game } from '../../../core/services/game/game.model';
 import { Icon } from '../icon/icon';
 import { GameService } from '../../../core/services/game/game.service';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { TelegramAuthService } from '../../../core/services/telegram/telegram-auth.service';
 
 @Component({
     selector: 'app-game-launch-dialog',
@@ -16,6 +17,7 @@ export class GameLaunchDialog {
     private readonly gameService = inject(GameService);
     private readonly sanitizer = inject(DomSanitizer);
     private readonly platformId = inject(PLATFORM_ID);
+    private readonly telegramAuthService = inject(TelegramAuthService);
     private readonly isBrowser = isPlatformBrowser(this.platformId);
 
     isOpen = input<boolean>(false);
@@ -98,15 +100,17 @@ export class GameLaunchDialog {
     }
 
     protected handleClose(): void {
-        if (this.sessionId()) {
-            this.gameService.closeSession(this.sessionId()).subscribe({
-                next: () => {
-                },
-                error: (_error) => {
-                }
-            });
-        }
         this.isFullscreen.set(false);
+        
+        this.telegramAuthService.refreshUser().subscribe({
+            next: () => console.log('User refreshed after game close'),
+            error: (err) => console.error('Failed to refresh user:', err)
+        });
+        
+        if (this.sessionId()) {
+            this.gameService.closeSession(this.sessionId()).subscribe();
+        }
+        
         this.close.emit();
     }
 

@@ -7,6 +7,7 @@ import { Icon } from '../../shared/components/icon/icon';
 import { GlobalSlider } from '../../shared/components/global-slider/global-slider';
 import { GameCard } from '../../shared/components/game-card/game-card';
 import { RouterLink } from "@angular/router";
+import { VersionManager } from '../../core/services/version/version-manager';
 
 @Component({
   selector: 'app-home',
@@ -33,13 +34,13 @@ export class Home implements OnInit {
 
   carouselSlides: PromoSlide[] = [
     {
-      backgroundImage: 'url(/assets/images/banners/banner1.png)',
+      backgroundImage: `url(${VersionManager.getVersionedUrl('/assets/images/banners/banner1.png')})`,
     },
     {
-      backgroundImage: 'url(/assets/images/banners/banner2.png)',
+      backgroundImage: `url(${VersionManager.getVersionedUrl('/assets/images/banners/banner2.png')})`,
     },
     {
-      backgroundImage: 'url(/assets/images/banners/banner3.png)',
+      backgroundImage: `url(${VersionManager.getVersionedUrl('/assets/images/banners/banner3.png')})`,
     },
   ];
 

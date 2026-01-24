@@ -5,7 +5,7 @@
 <section class="py-2">
   <div class="container mx-auto px-4">
     <div class="flex items-center justify-start mb-4">
-      <app-icon name="cup"></app-icon>
+      <app-icon name="cup" class="w-6 h-6"></app-icon>
       <h2 class="text-xl md:text-2xl font-bold text-white ml-2"> Top Games</h2>
     </div>
     <app-global-slider [items]="topGames()" [isLoading]="isLoadingTopGames()" />
@@ -14,7 +14,7 @@
 <section class="py-2">
   <div class="container mx-auto px-4">
     <div class="flex items-center justify-start mb-4">
-      <app-icon name="fire"></app-icon>
+      <app-icon name="fire" class="w-6 h-6"></app-icon>
       <h2 class="text-xl md:text-2xl font-bold text-white ml-2"> Hot Games</h2>
     </div>
     <app-global-slider [items]="hotGames()" [isLoading]="isLoadingHotGames()" />
@@ -23,7 +23,7 @@
 <section class="py-2">
   <div class="container mx-auto px-4">
     <div class="flex items-center justify-start mb-4">
-      <app-icon name="sparkles"></app-icon>
+      <app-icon name="sparkles" class="w-6 h-6"></app-icon>
       <h2 class="text-xl md:text-2xl font-bold text-white ml-2"> New Games</h2>
     </div>
     <app-global-slider [items]="newGames()" [isLoading]="isLoadingNewGames()" />
@@ -33,7 +33,7 @@
   <div class="container mx-auto px-4">
     <div class="flex items-center justify-between mb-4">
       <div class="flex items-center justify-start">
-        <app-icon name="slot-machine"></app-icon>
+        <app-icon name="slot-machine" class="w-6 h-6"></app-icon>
         <h2 class="text-xl md:text-2xl font-bold text-white ml-2"> All Slots</h2>
       </div>
       <button routerLink="/casino" class="group flex items-center justify-end cursor-pointer">

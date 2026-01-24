@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
 import { map, catchError, shareReplay } from 'rxjs/operators';
 import { IconConfig } from './models/icon.model';
+import { APP_VERSION } from '../../../core/services/version/version-manager';
 
 @Injectable({
   providedIn: 'root'
@@ -50,7 +51,8 @@ export class IconRegistry {
       return of(this.sanitizer.sanitize(1, '') as SafeHtml);
     }
 
-    const loading$ = this.http.get(url, { responseType: 'text' }).pipe(
+    const versionedUrl = this.addVersionToUrl(url);
+    const loading$ = this.http.get(versionedUrl, { responseType: 'text' }).pipe(
       map(svg => {
         const sanitized = this.sanitizeSvg(svg);
         this.iconCache.set(name, sanitized);
@@ -89,6 +91,15 @@ export class IconRegistry {
   clearRegistry(): void {
     this.iconCache.clear();
     this.loadingCache.clear();
+  }
+
+  /**
+   * Add version query parameter to URL for cache busting
+   */
+  private addVersionToUrl(url: string): string {
+    if (!url) return url;
+    const separator = url.includes('?') ? '&' : '?';
+    return `${url}${separator}v=${APP_VERSION}`;
   }
 
   /**

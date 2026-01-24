@@ -3,11 +3,12 @@ import { isPlatformBrowser } from '@angular/common';
 import { GameService } from '../../../core/services/game/game.service';
 import { Game } from '../../../core/services/game/game.model';
 import { Icon } from '../icon/icon';
+import { VersionedAssetPipe } from '../../pipes/versioned-asset.pipe';
 
 @Component({
   selector: 'app-game-bottom-sheet',
   standalone: true,
-  imports: [Icon],
+  imports: [Icon, VersionedAssetPipe],
   templateUrl: './game-bottom-sheet.html',
   styleUrl: './game-bottom-sheet.css',
 })

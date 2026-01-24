@@ -1,10 +1,11 @@
 import { Component, inject, computed } from '@angular/core';
 import { TelegramAuthService } from '../../core/services/telegram/telegram-auth.service';
 import { Icon } from "../../shared/components/icon/icon";
+import { VersionedAssetPipe } from '../../shared/pipes/versioned-asset.pipe';
 
 @Component({
   selector: 'app-profile',
-  imports: [Icon],
+  imports: [Icon, VersionedAssetPipe],
   templateUrl: './profile.html',
   styleUrl: './profile.css',
 })

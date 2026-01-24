@@ -2,7 +2,7 @@
     <div class="flex items-center justify-between px-3 py-1.5">
         <div class="flex items-center cursor-pointer" routerLink="">
             <img
-                [src]="appConfig().logo"
+                [src]="appConfig().logo | versionedAsset"
                 [alt]="appConfig().projectName + ' Logo'"
                 class="h-8 w-auto"
             />
@@ -21,7 +21,7 @@
             </button>
             <button class="flex items-center gap-2 rounded-xl border border-primary/60 h-8 w-8 overflow-hidden cursor-pointer" routerLink="/profile">
                 <img
-                    [src]="userAvatar()"
+                    [src]="userAvatar() | versionedAsset"
                     [alt]="userName() + ' Avatar'"
                     class="object-cover w-full h-full"
                 />

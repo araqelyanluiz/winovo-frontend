@@ -54,6 +54,26 @@
             <p class="text-xs text-white/60">Send funds to the address below.</p>
           </div>
         </div>
+
+        <div class="flex items-start gap-3 p-4 bg-warning/5 rounded-xl border border-warning/10">
+          <app-icon name="warning" class="w-4 h-4 text-warning"></app-icon>
+          <div class="flex-1">
+            <p class="text-sm font-semibold text-warning mb-1">Important: Check Network!</p>
+            @if (selectedCurrency()?.networks && selectedCurrency()!.networks!.length > 0) {
+              <p class="text-xs text-white/60">
+                Only send <span class="font-semibold text-white">{{ selectedCurrency()?.value }}</span> via 
+                <span class="font-semibold text-warning">{{ selectedCurrency()!.networks!.join(', ') }}</span> 
+                network(s).
+              </p>
+              <span class="text-xs font-light text-white/40">Sending via wrong network will result in permanent loss of funds.</span>
+            } @else {
+              <p class="text-xs text-white/60">
+                Send  onley <span class="font-semibold text-white">{{ selectedCurrency()?.value }}</span> to this address. 
+                Sending other currencies will result in permanent loss of funds.
+              </p>
+            }
+          </div>
+        </div>
         
         <div class="space-y-2">
           <label class="text-xs text-white/60 block">Deposit Address</label>

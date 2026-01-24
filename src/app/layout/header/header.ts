@@ -5,10 +5,11 @@ import { ConfigService } from '../../core/services/config/config.service';
 import { TelegramAuthService } from '../../core/services/telegram/telegram-auth.service';
 import { RouterLink } from "@angular/router";
 import { DecimalPipe } from '@angular/common';
+import { VersionedAssetPipe } from '../../shared/pipes/versioned-asset.pipe';
 
 @Component({
   selector: 'app-header',
-  imports: [RouterLink, Icon, DecimalPipe],
+  imports: [RouterLink, Icon, DecimalPipe, VersionedAssetPipe],
   templateUrl: './header.html',
   styleUrl: './header.css',
 })
