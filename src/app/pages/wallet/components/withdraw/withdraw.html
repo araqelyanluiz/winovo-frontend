@@ -22,8 +22,19 @@
               class="no-spinner flex w-full rounded-lg border-input bg-skin1 px-4 py-3 pr-20 text-white placeholder-white/40 border border-primary/40 focus:border-primary/20 outline-none transition-colors"
               placeholder="Enter amount to withdraw"
           />
-          <span class="absolute right-4 top-1/2 -translate-y-1/2 text-sm font-medium text-white/40">{{ currency() }}</span>
+          <span class="absolute right-4 top-1/2 -translate-y-1/2 text-sm font-medium text-white/40">{{ userCurrency() }}</span>
           </div>
+          @if (convertedAmount()) {
+            <div class="flex items-center justify-center gap-2 px-4 py-3 mt-3 bg-warning/5 rounded-lg border border-warning/20">
+              <span class="text-sm font-light text-white/40">
+                {{ convertedAmount()!.amount.toLocaleString('en-US', {minimumFractionDigits: 0, maximumFractionDigits: 2}) }} {{ convertedAmount()!.fromCurrency }}
+              </span>
+              <app-icon name="arrow-right" class="w-4 h-4 text-warning"></app-icon>
+              <span class="text-sm font-semibold text-warning">
+                {{ convertedAmount()!.convertedValue.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 8}) }} {{ convertedAmount()!.toCurrency }}
+              </span>
+            </div>
+          }
           @if (formErrorMessage()) {
           <p class="text-xs text-danger mt-2">{{ formErrorMessage() }}</p>
           } @else {

@@ -5,6 +5,7 @@ import { TelegramAuthService } from '../../../../core/services/telegram/telegram
 import { SerachSelect } from '../../../../shared/components/serach-select/serach-select';
 import { SearchSelectOption } from '../../../../shared/components/serach-select/models/search-select.model';
 import { Payment } from '../../../../core/services/payment/payment.service';
+import { CurrencyConverter } from '../../../../core/services/payment/currency-converter.service';
 
 @Component({
   selector: 'app-withdraw',
@@ -16,19 +17,41 @@ export class Withdraw {
   private readonly telegramAuthService = inject(TelegramAuthService);
   private readonly paymentService = inject(Payment);
   private readonly fb = inject(FormBuilder);
+  private readonly currencyConverter = inject(CurrencyConverter);
   protected readonly user = this.telegramAuthService.user;
   
   protected availableCurrencies = this.paymentService.getAvailableCurrencies();
   protected selectedCurrency = signal<SearchSelectOption | null>(this.availableCurrencies[0] || null);
   protected showSuccess = signal<boolean>(false);
   protected showError = signal<boolean>(false);
+  protected amountValue = signal<string>('');
   
+  protected userCurrency = computed(() => this.user()?.projectCurrency);
   protected currency = computed(() => this.selectedCurrency()?.value || 'FTNF');
   protected minWithdrawAmount = computed(() => this.selectedCurrency()?.minWithdrawAmount ?? 10);
   protected maxWithdrawAmount = computed(() => {
     const currencyMax = this.selectedCurrency()?.maxWithdrawAmount ?? 0;
     const userBalance = this.user()?.balance ?? 0;
     return Math.min(currencyMax, userBalance);
+  });
+  
+  protected convertedAmount = computed(() => {
+    const amountStr = this.amountValue();
+    const amount = parseFloat(amountStr || '0');
+    const fromCurrency = this.userCurrency();
+    const toCurrency = this.selectedCurrency()?.value;
+    
+    if (!amountStr || amount === 0 || !fromCurrency || !toCurrency) {
+      return null;
+    }
+    
+    const converted = this.currencyConverter.convert(amount, fromCurrency, toCurrency);
+    return {
+      amount,
+      fromCurrency,
+      toCurrency,
+      convertedValue: converted
+    };
   });
   
   protected withdrawForm: FormGroup = this.fb.group({
@@ -92,14 +115,10 @@ export class Withdraw {
     const input = event.target as HTMLInputElement;
     let value = input.value;
     
-    value = value.replace(/[^0-9.]/g, '');
-    
-    const parts = value.split('.');
-    if (parts.length > 2) {
-      value = parts[0] + '.' + parts.slice(1).join('');
-    }
+    value = value.replace(/[^0-9]/g, '');
     
     this.withdrawForm.patchValue({ amount: value }, { emitEvent: false });
+    this.amountValue.set(value);
     input.value = value;
   }
   
@@ -109,15 +128,17 @@ export class Withdraw {
     }
     
     const user = this.user();
-    if (!user) {
+    const converted = this.convertedAmount();
+    
+    if (!user || !converted) {
       return;
     }
     
     const withdrawData = {
       telegram_id: user.telegram_id,
       username: user.username || '',
-      crypto_amount: parseFloat(this.withdrawForm.get('amount')?.value || '0'),
-      crypto_currency: this.currency(),
+      crypto_amount: converted.convertedValue,
+      crypto_currency: converted.toCurrency,
       address: this.withdrawForm.get('walletAddress')?.value || ''
     };
     

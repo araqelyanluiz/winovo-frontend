@@ -1,17 +1,19 @@
 export interface Transaction {
-   id: number;
-  telegram_id: string;
+  id: number;
   order_id: string;
-  currency: string;
-  method: string;
+  fulgur_transaction_id: string;
+  type: string;
+  op_type: string;
   status: string;
-  balance_before: string;
-  balance_after: string;
-  deposit: string;
-  withdraw: string;
-  net_amount: string;
-  freerounds_used: number;
-  bonus_id: number;
+  address: string;
+  amount: string;
+  crypto_amount: string;
+  currency: string;
+  crypto_currency: string;
+  description: string;
+  telegram_id: number;
+  gas: string | null;
+  tx_hash: string | null;
   created_at: string;
   updated_at: string;
 }

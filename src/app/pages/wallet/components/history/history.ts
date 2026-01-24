@@ -69,31 +69,39 @@ export class History implements OnInit {
   }
   
   getTransactionType(transaction: Transaction): string {
-    if (parseFloat(transaction.deposit) > 0) return 'deposit';
-    if (parseFloat(transaction.withdraw) > 0) return 'withdraw';
-    if (parseFloat(transaction.net_amount) > 0) return 'win';
-    return 'bet';
+    return transaction.type.toLowerCase();
   }
   
-  getTransactionAmount(transaction: Transaction): number {
-    if (parseFloat(transaction.deposit) > 0) return parseFloat(transaction.deposit);
-    if (parseFloat(transaction.withdraw) > 0) return parseFloat(transaction.withdraw);
-    return Math.abs(parseFloat(transaction.net_amount));
+  getTransactionAmount(transaction: Transaction): string {
+    const amount = transaction.type.toLowerCase() === 'deposit' || transaction.type.toLowerCase() === 'withdraw' 
+      ? transaction.crypto_amount 
+      : transaction.amount;
+    
+    if (!amount || amount === null || amount === undefined) {
+      return '0.00';
+    }
+    
+    return parseFloat(amount).toFixed(2);
+  }
+  
+  getTransactionCurrency(transaction: Transaction): string {
+    return transaction.type.toLowerCase() === 'deposit' || transaction.type.toLowerCase() === 'withdraw'
+      ? transaction.crypto_currency
+      : transaction.currency;
   }
   
   getTransactionTitle(transaction: Transaction): string {
-    const type = this.getTransactionType(transaction);
-    switch(type) {
-      case 'deposit': return 'Deposit';
-      case 'withdraw': return 'Withdraw';
-      case 'win': return `Win - ${transaction.method}`;
-      case 'bet': return `Bet - ${transaction.method}`;
-      default: return 'Transaction';
-    }
+    const type = transaction.type;
+    const opType = transaction.op_type || '';
+    
+    if (type.toLowerCase() === 'deposit') return 'Deposit';
+    if (type.toLowerCase() === 'withdraw') return 'Withdraw';
+    if (opType) return `${type} - ${opType}`;
+    return type;
   }
   
   getTransactionIcon(transaction: Transaction): string {
-    const type = this.getTransactionType(transaction);
+    const type = transaction.type.toLowerCase();
     switch(type) {
       case 'deposit': return 'deposit-arrow';
       case 'withdraw': return 'withdraw-arrow';
@@ -104,7 +112,7 @@ export class History implements OnInit {
   }
   
   getTransactionColor(transaction: Transaction): string {
-    const type = this.getTransactionType(transaction);
+    const type = transaction.type.toLowerCase();
     switch(type) {
       case 'deposit': return 'text-success';
       case 'withdraw': return 'text-warning';
