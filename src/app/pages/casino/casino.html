@@ -28,7 +28,7 @@
             }
         </div>
 
-        <div class="grid grid-cols-3 md:grid-cols-5 gap-3 px-4">
+        <div class="grid grid-cols-3 md:grid-cols-5 gap-3 pt-2 px-4">
             @for (game of filteredGames(); track game.id) {
             <app-game-card [game]="game"></app-game-card>
             }

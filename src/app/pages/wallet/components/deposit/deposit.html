@@ -122,7 +122,7 @@
         <button 
           type="button"
           (click)="onGenerateAddress()"
-          [disabled]="isButtonDisabled() || isLoading()" 
+          [disabled]="isButtonDisabled || isLoading()" 
           class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary hover:bg-primary/90 px-4 py-2 w-full bg-gradient-to-r from-success to-success/80 hover:from-success/90 hover:to-success/70 text-success-foreground font-semibold rounded-xl h-12 cursor-pointer"
         >
           @if (isLoading()) {

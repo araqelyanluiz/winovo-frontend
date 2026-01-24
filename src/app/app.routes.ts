@@ -33,6 +33,7 @@ export const routes: Routes = [
             }
         ],
     },
-    { path: 'not-found', component: NotFound },
-    { path: '**', redirectTo: 'not-found' },
+    { path: '404', component: NotFound },
+    { path: 'not-found', redirectTo: '404', pathMatch: 'full' },
+    { path: '**', redirectTo: '404' },
 ];

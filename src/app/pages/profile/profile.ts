@@ -20,4 +20,5 @@ export class Profile {
       : user?.first_name ?? 'User';
   });
   protected readonly userUsername = computed(() => this.user()?.username ? `@${this.user()!.username}` : '@user');
+  protected readonly userId = computed(() => this.user()?.telegram_id ?? 0);
 }

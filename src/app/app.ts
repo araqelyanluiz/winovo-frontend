@@ -7,22 +7,23 @@ import { Header } from './layout/header/header';
 import { Navigation } from './layout/navigation/navigation';
 import { Footer } from './layout/footer/footer';
 import { Language } from './core/services/config/app-config.model';
+import { GameBottomSheet } from './shared/components/game-bottom-sheet/game-bottom-sheet';
 import { GameLaunchDialog } from './shared/components/game-launch-dialog/game-launch-dialog';
-import { GameDialogService } from './core/services/game-dialog/game-dialog.service';
+import { GameService } from './core/services/game/game.service';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, TranslateModule, CommonModule, GameLaunchDialog],
+  imports: [RouterOutlet, TranslateModule, CommonModule, GameBottomSheet, GameLaunchDialog],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
 export class App {
   protected readonly title = signal('winovo-frontend');
   protected readonly localizationService = inject(LocalizationService);
+  protected readonly gameService = inject(GameService);
   protected readonly showLangMenu = signal(false);
-  private readonly gameDialogService = inject(GameDialogService);
   
-  readonly gameDialogState = this.gameDialogService.dialogState;
+  readonly launchDialogState = this.gameService.launchDialogState;
   
   protected get availableLanguages(): Language[] {
     return this.localizationService.getAvailableLanguages();
@@ -39,9 +40,5 @@ export class App {
   
   protected toggleLangMenu(): void {
     this.showLangMenu.update(v => !v);
-  }
-  
-  closeGameDialog(): void {
-    this.gameDialogService.closeDialog();
   }
 }

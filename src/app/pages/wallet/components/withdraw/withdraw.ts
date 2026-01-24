@@ -80,7 +80,9 @@ export class Withdraw {
     return '';
   });
   
-  protected isButtonDisabled = computed(() => !this.withdrawForm.valid);
+  get isButtonDisabled(): boolean {
+    return !this.withdrawForm.valid;
+  }
   
   onCurrencySelected(currency: SearchSelectOption) {
     this.selectedCurrency.set(currency);

@@ -29,13 +29,7 @@ describe('PromoCarousel', () => {
   it('should display slides when provided', () => {
     const mockSlides: PromoSlide[] = [
       {
-        id: '1',
-        badge: 'TEST',
-        title: 'Test Title',
-        subtitle: 'Test Subtitle',
-        cta: 'Click Me',
-        theme: 'vip',
-        icon: 'crown'
+        backgroundImage: 'url(/assets/images/test-slide.jpg)',
       }
     ];
     component.slides = mockSlides;
@@ -46,8 +40,8 @@ describe('PromoCarousel', () => {
 
   it('should navigate to next slide', () => {
     const mockSlides: PromoSlide[] = [
-      { id: '1', badge: 'A', title: 'Slide 1', subtitle: 'Sub 1', cta: 'CTA 1' },
-      { id: '2', badge: 'B', title: 'Slide 2', subtitle: 'Sub 2', cta: 'CTA 2' }
+      { backgroundImage: 'url(/assets/images/test-slide1.jpg)' },
+      { backgroundImage: 'url(/assets/images/test-slide2.jpg)' }
     ];
     component.slides = mockSlides;
     component.currentIndex.set(0);
@@ -57,8 +51,8 @@ describe('PromoCarousel', () => {
 
   it('should navigate to previous slide', () => {
     const mockSlides: PromoSlide[] = [
-      { id: '1', badge: 'A', title: 'Slide 1', subtitle: 'Sub 1', cta: 'CTA 1' },
-      { id: '2', badge: 'B', title: 'Slide 2', subtitle: 'Sub 2', cta: 'CTA 2' }
+      { backgroundImage: 'url(/assets/images/test-slide1.jpg)' },
+      { backgroundImage: 'url(/assets/images/test-slide2.jpg)' }
     ];
     component.slides = mockSlides;
     component.currentIndex.set(1);
@@ -68,8 +62,8 @@ describe('PromoCarousel', () => {
 
   it('should loop when enabled', () => {
     const mockSlides: PromoSlide[] = [
-      { id: '1', badge: 'A', title: 'Slide 1', subtitle: 'Sub 1', cta: 'CTA 1' },
-      { id: '2', badge: 'B', title: 'Slide 2', subtitle: 'Sub 2', cta: 'CTA 2' }
+      { backgroundImage: 'url(/assets/images/test-slide1.jpg)' },
+      { backgroundImage: 'url(/assets/images/test-slide2.jpg)' }
     ];
     component.slides = mockSlides;
     component.loop = true;
@@ -80,7 +74,7 @@ describe('PromoCarousel', () => {
 
   it('should hide navigation when only one slide', () => {
     const mockSlides: PromoSlide[] = [
-      { id: '1', badge: 'A', title: 'Slide 1', subtitle: 'Sub 1', cta: 'CTA 1' }
+      { backgroundImage: 'url(/assets/images/test-slide1.jpg)' }
     ];
     component.slides = mockSlides;
     fixture.detectChanges();

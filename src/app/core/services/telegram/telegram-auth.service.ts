@@ -1,6 +1,7 @@
 import { Injectable, inject, PLATFORM_ID, signal, computed } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { tap, catchError, map, shareReplay } from 'rxjs/operators';
 import { environment } from '../../../../environments/environment';
@@ -10,6 +11,7 @@ import { TelegramWebApp, LoadUserRequest } from './telegram-webapp.model';
 @Injectable({ providedIn: 'root' })
 export class TelegramAuthService {
   private readonly http = inject(HttpClient);
+  private readonly router = inject(Router);
   private API_URL = environment.apiUrl;
   private readonly platformId = inject(PLATFORM_ID);
   private readonly isBrowser = isPlatformBrowser(this.platformId);
@@ -61,7 +63,10 @@ export class TelegramAuthService {
       username = environment.testUser.username;
       console.log('TelegramAuth: Using test user in development mode');
     } else {
-      console.warn('TelegramAuth: No user ID available');
+      console.warn('TelegramAuth: No Telegram user available, redirecting to 404');
+      if (this.isBrowser) {
+        this.router.navigate(['/404']);
+      }
       return Promise.resolve(false);
     }
 

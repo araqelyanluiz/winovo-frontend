@@ -30,4 +30,10 @@ export class Header {
     });
   }
 
+  openSupportChat() {
+    const supportLink = this.appConfig().supportChatLink;
+    if (supportLink) {
+      window.open(supportLink, '_blank');
+    }
+  }
 }

@@ -69,9 +69,12 @@ export class Casino implements OnInit {
     if (providerName === 'All') {
       this.filteredGames.set(this.games());
     } else {
-      this.filteredGames.set(
-        this.games().filter(game => game.type === providerName)
-      );
+      const provider = this.providers().find(p => p.name === providerName);
+      if (provider) {
+        this.filteredGames.set(
+          this.games().filter(game => provider.games.includes(game.id))
+        );
+      }
     }
   }
 }

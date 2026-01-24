@@ -99,10 +99,10 @@ export class GameLaunchDialog {
 
     protected handleClose(): void {
         if (this.sessionId()) {
-            this.gameService.closeSeession(this.sessionId()).subscribe({
+            this.gameService.closeSession(this.sessionId()).subscribe({
                 next: () => {
                 },
-                error: (error) => {
+                error: (_error) => {
                 }
             });
         }

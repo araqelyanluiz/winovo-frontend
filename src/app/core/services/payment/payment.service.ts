@@ -18,7 +18,7 @@ export class Payment {
   }
   
   getTransactionHistory(telegramId: number, page: number = 1, limit: number = 10): Observable<TransactionHistoryResponse> {
-    return this.http.get<TransactionHistoryResponse>(`${this.apiUrl}/casino-transactions/user/${telegramId}?page=${page}&limit=${limit}`);
+    return this.http.get<TransactionHistoryResponse>(`${this.apiUrl}/transactions/user/${telegramId}?page=${page}&limit=${limit}`);
   }
   
   createDeposit(data: {

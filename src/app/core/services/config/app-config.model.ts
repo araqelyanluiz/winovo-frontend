@@ -58,6 +58,7 @@ export interface Pages {
 export interface AppConfig {
   projectName: string;
   logo: string;
+  supportChatLink?: string;
   theme: Theme;
   features: Features;
   pages?: Pages;

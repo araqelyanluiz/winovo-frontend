@@ -1,6 +1,7 @@
 {
   "projectName": "Winovo",
   "logo": "/assets/images/logo.png",
+  "supportChatLink": "https://t.me/john25774",
   "theme": {
     "primary": "203 168 255",
     "secondary": "223 253 81",

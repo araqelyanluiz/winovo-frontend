@@ -3,5 +3,5 @@ export const environment = {
   apiUrl: 'https://api.winovo.bet/api',
   configUrl: '',
   projectKey:'WINOVO_BET_ETB',
-  testUser: null
+  testUser: null as { telegramId: number; username: string } | null
 };

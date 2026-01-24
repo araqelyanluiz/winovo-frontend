@@ -33,50 +33,14 @@ export class Home implements OnInit {
 
   carouselSlides: PromoSlide[] = [
     {
-      id: 'vip-program',
-      badge: 'EXCLUSIVE',
-      title: 'VIP Program',
-      subtitle: 'Unlock rewards & 20% cashback',
-      cta: 'Join Now',
-      theme: 'vip',
-      icon: 'crown'
+      backgroundImage: 'url(/assets/images/banners/banner1.png)',
     },
     {
-      id: 'welcome-bonus',
-      badge: 'NEW PLAYER',
-      title: 'Welcome Bonus',
-      subtitle: '100% bonus up to $500',
-      cta: 'Claim Now',
-      theme: 'welcome',
-      icon: 'gift'
+      backgroundImage: 'url(/assets/images/banners/banner2.png)',
     },
     {
-      id: 'crypto-boost',
-      badge: 'HOT OFFER',
-      title: 'Crypto Boost',
-      subtitle: 'Extra 25% on crypto deposits',
-      cta: 'Deposit',
-      theme: 'crypto',
-      icon: 'btc'
+      backgroundImage: 'url(/assets/images/banners/banner3.png)',
     },
-    {
-      id: 'tournament',
-      badge: 'LIVE NOW',
-      title: 'Weekly Tournament',
-      subtitle: '$10,000 prize pool',
-      cta: 'Play Now',
-      theme: 'vip',
-      icon: 'crown'
-    },
-    {
-      id: 'free-spins',
-      badge: 'LIMITED TIME',
-      title: 'Free Spins',
-      subtitle: '50 free spins on slots',
-      cta: 'Get Spins',
-      theme: 'welcome',
-      icon: 'gift'
-    }
   ];
   constructor() {}
 

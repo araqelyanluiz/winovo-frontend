@@ -10,9 +10,11 @@
 </div> -->
 <router-outlet />
 
-<app-game-launch-dialog 
-  [isOpen]="gameDialogState().isOpen" 
-  [game]="gameDialogState().game"
-  [isDemo]="gameDialogState().isDemo"
-  (close)="closeGameDialog()">
-</app-game-launch-dialog>
+<app-game-bottom-sheet />
+
+<app-game-launch-dialog
+  [isOpen]="launchDialogState().isOpen"
+  [game]="launchDialogState().game"
+  [isDemo]="launchDialogState().isDemo"
+  (close)="gameService.closeGameLaunchDialog()"
+/>

@@ -7,6 +7,18 @@ import { GameListResponse, ProviderListResponse, GameInitRequest, GameInitRespon
 import { TelegramAuthService } from "../telegram/telegram-auth.service";
 import { LocalizationService } from "../localization/localization.service";
 
+export interface GameBottomSheetState {
+  isOpen: boolean;
+  game: Game | null;
+  isDemo: boolean;
+}
+
+export interface GameLaunchDialogState {
+  isOpen: boolean;
+  game: Game | null;
+  isDemo: boolean;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -20,6 +32,22 @@ export class GameService {
     readonly games = signal<Game[]>([]);
     readonly providers = signal<Provider[]>([]);
     readonly isLoading = signal<boolean>(false);
+    
+    private bottomSheetState = signal<GameBottomSheetState>({
+      isOpen: false,
+      game: null,
+      isDemo: false
+    });
+    
+    readonly gameBottomSheetState = this.bottomSheetState.asReadonly();
+
+    private gameLaunchDialogState = signal<GameLaunchDialogState>({
+      isOpen: false,
+      game: null,
+      isDemo: false
+    });
+    
+    readonly launchDialogState = this.gameLaunchDialogState.asReadonly();
 
     private games$: Observable<Game[]> | null = null;
     private providers$: Observable<Provider[]> | null = null;
@@ -64,6 +92,7 @@ export class GameService {
         }
         return this.providers$;
     }
+    
 
     gameInit(gameId: string): Observable<GameInitData> {
         const user = this.telegramAuthService.user();
@@ -93,15 +122,48 @@ export class GameService {
         );
     }
 
-    closeSeession(SessionId: string): Observable<GameInitData> {
+    openGameBottomSheet(game: Game | undefined, isDemo: boolean = false): void {
+        if (!game) return;
+        this.bottomSheetState.set({
+            isOpen: true,
+            game,
+            isDemo
+        });
+    }
+
+    closeGameBottomSheet(): void {
+        this.bottomSheetState.set({
+            isOpen: false,
+            game: null,
+            isDemo: false
+        });
+    }
+
+    openGameLaunchDialog(game: Game | null, isDemo: boolean = false): void {
+        if (!game) return;
+        this.gameLaunchDialogState.set({
+            isOpen: true,
+            game,
+            isDemo
+        });
+    }
+
+    closeGameLaunchDialog(): void {
+        this.gameLaunchDialogState.set({
+            isOpen: false,
+            game: null,
+            isDemo: false
+        });
+    }
+
+    closeSession(sessionId: string): Observable<GameInitData> {
         const requestBody = {
-            "sessionId": SessionId
-        }
-       return this.http.post<GameInitResponse>(`${this.API_URL}/session/close`, requestBody).pipe(
+            "sessionId": sessionId
+        };
+        return this.http.post<GameInitResponse>(`${this.API_URL}/session/close`, requestBody).pipe(
             map(response => {
                 return response.result;
             })
-            
         );
     }
 }

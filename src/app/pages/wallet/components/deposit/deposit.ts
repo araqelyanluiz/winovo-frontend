@@ -77,7 +77,9 @@ export class Deposit {
     return '';
   });
   
-  protected isButtonDisabled = computed(() => !this.depositForm.valid);
+  get isButtonDisabled(): boolean {
+    return !this.depositForm.valid;
+  }
   
   onCurrencySelected(currency: SearchSelectOption) {
     this.selectedCurrency.set(currency);
